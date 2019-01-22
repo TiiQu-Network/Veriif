@@ -11,9 +11,12 @@ import (
 	"fmt"
 	"github.com/Samyoul/Veriif/models"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 	"io/ioutil"
+	"log"
 	"regexp"
 )
 
@@ -62,6 +65,15 @@ func main() {
 	}
 
 	// TODO check merkle root is on blockchain
+	// TODO create golang ABI for contract https://github.com/Samyoul/TiiQu-Platform/blob/386826d546d6a5be44e5b4ac968d920c7ac7757e/README.md#building-go-contract-interfaces
+	contractAddress := common.HexToAddress("0x1099a30581552418062f09f701d15558253daae9")
+	node := "https://kovan.infura.io/v3/3acc90c4079a4c3daccb59d50e893e14"
+	client, err := ethclient.Dial(node)
+	if err != nil {
+		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
+	}
+
+	spew.Dump(contractAddress, client)
 
 }
 
