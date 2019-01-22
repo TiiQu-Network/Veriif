@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"github.com/Samyoul/Veriif/models"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 	"io/ioutil"
 	"regexp"
@@ -33,7 +34,9 @@ func main() {
 	// Check the calculated hash matches the cert hash
 	certHash, _ := data.Hash.Decode()
 	if bytes.Equal(calcHash[:], certHash) {
-		println("All good, hashes match")
+		println("SUCCESS - Hash match")
+	} else {
+		println("FAIL - Hash match")
 	}
 
 	// TODO check public key is known
@@ -43,12 +46,21 @@ func main() {
 	sig, _ := data.Signature.Decode()
 	err := rsa.VerifyPKCS1v15(pk, crypto.SHA256, certHash, sig)
 	if err != nil {
-		spew.Dump("Signature verification fail!", err)
+		spew.Dump("FAIL - Signature verification", err)
 	} else {
-		println("Signature verification SUCCESS.")
+		println("SUCCESS - Signature verification")
 	}
 
-	// TODO check the Merkle proof is verifies
+	// Check the Merkle proof is verifies
+	mp, _ := proofFromModel(data.MerkleProof)
+	mr, _ := data.MerkleRoot.Decode()
+	mt := gomerkle.NewTree(sha256.New())
+	if mt.VerifyProof(mp, mr, certHash) {
+		println("SUCCESS - Merkle proof verify")
+	} else {
+		println("FAIL - Merkle proof verify")
+	}
+
 	// TODO check merkle root is on blockchain
 
 }
@@ -95,4 +107,22 @@ func parsePublicKey(pemBytes []byte) (*rsa.PublicKey, error) {
 	default:
 		return nil, fmt.Errorf("unsupported key type %q", block.Type)
 	}
+}
+
+func proofFromModel(md models.MerkleProof) (gomerkle.Proof, error) {
+	var pf gomerkle.Proof
+
+	for _, item := range md {
+		for dir, hashes := range item {
+			b, err := hashes.Decode()
+			if err != nil {
+				return pf, err
+			}
+
+			p := map[string][]byte{dir: b}
+			pf = append(pf, p)
+		}
+	}
+
+	return pf, nil
 }
