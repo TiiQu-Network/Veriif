@@ -65,7 +65,9 @@ func main() {
 	}
 
 	// TODO check merkle root is on blockchain
-	// TODO create golang ABI for contract https://github.com/Samyoul/TiiQu-Platform/blob/386826d546d6a5be44e5b4ac968d920c7ac7757e/README.md#building-go-contract-interfaces
+	// TODO create golang ABI for contract
+	//  https://github.com/Samyoul/TiiQu-Platform/blob/386826d546d6a5be44e5b4ac968d920c7ac7757e/README.md#building-go-contract-interfaces
+	//  https://stackoverflow.com/questions/42520417/how-to-call-an-ethereum-contract-from-go
 	contractAddress := common.HexToAddress("0x1099a30581552418062f09f701d15558253daae9")
 	node := "https://kovan.infura.io/v3/3acc90c4079a4c3daccb59d50e893e14"
 	client, err := ethclient.Dial(node)
