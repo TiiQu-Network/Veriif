@@ -22,6 +22,13 @@ func main() {
 	jn := json.Unmarshal(cert, &data)
 	spew.Dump(jn, data)
 
+	// TODO calculate the hash of the data
+	// TODO check the calculated hash matches the cert hash
+	// TODO check public key is known
+	// TODO check the signature verifies
+	// TODO check the Merkle proof is verifies
+	// TODO check merkle root is on blockchain
+
 }
 
 func findCert(location []byte) ([]byte, error) {
