@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"crypto/sha256"
 	"encoding/json"
 	"github.com/Samyoul/Veriif/models"
 	"github.com/davecgh/go-spew/spew"
@@ -22,8 +24,15 @@ func main() {
 	jn := json.Unmarshal(cert, &data)
 	spew.Dump(jn, data)
 
-	// TODO calculate the hash of the data
-	// TODO check the calculated hash matches the cert hash
+	// Calculate the hash of the data
+	calcHash, _ := calculateDataHash(data)
+
+	// Check the calculated hash matches the cert hash
+	certHash, _ := data.Hash.Decode()
+	if bytes.Equal(calcHash[:], certHash) {
+		spew.Dump("All good, hashes match")
+	}
+
 	// TODO check public key is known
 	// TODO check the signature verifies
 	// TODO check the Merkle proof is verifies
@@ -44,4 +53,14 @@ func findCert(location []byte) ([]byte, error) {
 	}
 
 	return nil, errors.New("No Certiif certificate found")
+}
+
+func calculateDataHash(cert models.CertPacket) ([32]byte, error) {
+	jn, err := json.Marshal(cert.Data)
+	if err != nil {
+		return [32]byte{}, err
+	}
+
+	hash := sha256.Sum256(jn)
+	return hash, nil
 }
