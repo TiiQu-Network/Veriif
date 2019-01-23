@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"crypto"
@@ -12,27 +13,48 @@ import (
 	"fmt"
 	"github.com/Samyoul/Veriif/contracts"
 	"github.com/Samyoul/Veriif/models"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 	"io/ioutil"
+	"os"
 	"regexp"
+	"strings"
 )
 
 // TODO add proper error handling / logging
 func main() {
-	err := verify()
-	if err != nil {
-		spew.Dump(err)
+	// Get file name from input
+	for {
+		reader := bufio.NewReader(os.Stdin)
+		print("Enter certificate filename: ")
+		filename, _ := reader.ReadString('\n')
+		filename = strings.TrimSpace(filename)
+		println("Processing : " + filename)
+
+		err := verify(filename)
+		if err != nil {
+			println(err.Error())
+
+			println("----------------")
+			println("NOT VERIFIED - The certificate failed verification")
+			println("----------------")
+			println("")
+
+		} else {
+			println("----------------")
+			println("VERIFIED - The certificate has been verified")
+			println("----------------")
+			println("")
+		}
 	}
 }
 
-func verify() error {
+func verify(filename string) error {
 	// Get the cert file
-	content, err := ioutil.ReadFile("example/cert_0.pdf")
+	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
 	}
@@ -97,7 +119,7 @@ func findCert(location []byte) ([]byte, error) {
 		return match[1], nil
 	}
 
-	return nil, errors.New("No Certiif certificate found")
+	return nil, errors.New("FAIL - No Certiif certificate found")
 }
 
 func calculateDataHash(cert models.CertPacket) ([32]byte, error) {
@@ -159,7 +181,7 @@ func checkMerkleProof(certHash []byte, data models.CertPacket) ([]byte, error) {
 
 	mt := gomerkle.NewTree(sha256.New())
 	if mt.VerifyProof(mp, mr, certHash) {
-		println("SUCCESS - Merkle proof verify")
+		println("SUCCESS - Merkle proof verification")
 	} else {
 		return nil, errors.New("FAIL - Merkle proof verify")
 	}
