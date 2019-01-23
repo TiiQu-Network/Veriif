@@ -273,7 +273,7 @@ func proofFromModel(md models.MerkleProof) (gomerkle.Proof, error) {
 
 func rootExistsOnChain(root []byte) (bool, error) {
 	contractAddress := common.HexToAddress("0x1099a30581552418062f09f701d15558253daae9")
-	node := "https://kovan.infura.io/v3/3acc90c4079a4c3daccb59d50e893e14"
+	node := "https://kovan.infura.io/v3/87abed49b20c49bd99f9bc2645023f34"
 
 	client, err := ethclient.Dial(node)
 	if err != nil {
