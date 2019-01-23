@@ -16,6 +16,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/fatih/color"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 	"io/ioutil"
@@ -26,28 +27,49 @@ import (
 
 // TODO add proper error handling / logging
 func main() {
+	color.Set(color.FgGreen, color.Bold)
+	println(`____   ____           .__.__  _____`)
+	println(`\   \ /   /___________|__|__|/ ____\`)
+	println(` \   Y   // __ \_  __ \  |  \   __\ `)
+	println(`  \     /\  ___/|  | \/  |  ||  |`)
+	println(`   \___/  \_____>__|  |__|__||__|`)
+	println("")
+	color.Unset()
+
+	println("application - Veriif (c) 2019 TiiQu Ltd")
+	println("version - 0.1.0")
+	println("")
+
 	// Get file name from input
 	for {
 		reader := bufio.NewReader(os.Stdin)
 		print("Enter certificate filename: ")
+		color.Set(color.FgHiYellow)
 		filename, _ := reader.ReadString('\n')
 		filename = strings.TrimSpace(filename)
-		println("Processing : " + filename)
+		println("- Processing : " + filename)
+		color.Unset()
 
 		err := verify(filename)
 		if err != nil {
-			println(err.Error())
+			color.Set(color.FgRed)
+			println("- FAIL    - " + err.Error())
+			color.Unset()
 
-			println("----------------")
-			println("NOT VERIFIED - The certificate failed verification")
-			println("----------------")
+			color.Set(color.FgRed, color.Bold)
+			println("|--------------------------------------------------------------|")
+			println("| {x}  NOT VERIFIED - The certificate failed verification  {x} |")
+			println("|--------------------------------------------------------------|")
 			println("")
+			color.Unset()
 
 		} else {
-			println("----------------")
-			println("VERIFIED - The certificate has been verified")
-			println("----------------")
+			color.Set(color.FgGreen, color.Bold)
+			println("|--------------------------------------------------------------|")
+			println("| {+}     VERIFIED - The certificate has been verified     {+} |")
+			println("|--------------------------------------------------------------|")
 			println("")
+			color.Unset()
 		}
 	}
 }
@@ -119,7 +141,7 @@ func findCert(location []byte) ([]byte, error) {
 		return match[1], nil
 	}
 
-	return nil, errors.New("FAIL - No Certiif certificate found")
+	return nil, errors.New("No Certiif certificate found")
 }
 
 func calculateDataHash(cert models.CertPacket) ([32]byte, error) {
@@ -139,9 +161,11 @@ func checkHashMatch(calcHash []byte, data models.CertPacket) ([]byte, error) {
 	}
 
 	if bytes.Equal(calcHash[:], certHash) {
-		println("SUCCESS - Hash match")
+		color.Set(color.FgGreen)
+		println("- SUCCESS - Hash match")
+		color.Unset()
 	} else {
-		return nil, errors.New("FAIL - Hash match")
+		return nil, errors.New("Hash does not match")
 	}
 
 	return certHash, nil
@@ -160,9 +184,11 @@ func checkSigVerifies(certHash []byte, data models.CertPacket) error {
 
 	err = rsa.VerifyPKCS1v15(pk, crypto.SHA256, certHash, sig)
 	if err != nil {
-		return errors.Wrap(err,"FAIL - Signature verification")
+		return errors.Wrap(err,"Signature does not verify")
 	} else {
-		println("SUCCESS - Signature verification")
+		color.Set(color.FgGreen)
+		println("- SUCCESS - Signature verification")
+		color.Unset()
 	}
 
 	return nil
@@ -181,9 +207,11 @@ func checkMerkleProof(certHash []byte, data models.CertPacket) ([]byte, error) {
 
 	mt := gomerkle.NewTree(sha256.New())
 	if mt.VerifyProof(mp, mr, certHash) {
-		println("SUCCESS - Merkle proof verification")
+		color.Set(color.FgGreen)
+		println("- SUCCESS - Merkle proof verification")
+		color.Unset()
 	} else {
-		return nil, errors.New("FAIL - Merkle proof verify")
+		return nil, errors.New("Merkle proof does not verify")
 	}
 
 	return mr, nil
@@ -196,9 +224,11 @@ func checkMerkelRoot(merkleRoot []byte) error {
 	}
 
 	if exists {
-		println("SUCCESS - Merkle root on-chain")
+		color.Set(color.FgGreen)
+		println("- SUCCESS - Merkle root on chain")
+		color.Unset()
 	} else {
-		return errors.New("FAIL - Merkle root on-chain")
+		return errors.New("Merkle root not on chain")
 	}
 
 	return nil
