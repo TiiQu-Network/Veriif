@@ -167,7 +167,11 @@ func verify(filename string) error {
 		return err
 	}
 
-	// TODO Check hash or merkle root has been revoked
+	// Check hash or merkle root has been revoked
+	err = checkHashRevoked(certHash, mr)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -321,27 +325,30 @@ func rootExistsOnChain(root []byte) (bool, error) {
 	return certRegContract.RootExists(callOpts, mr32)
 }
 
-// TODO finsh this
-func checkHashRevoked(certHash []byte, root []byte) (bool, error) {
+func checkHashRevoked(certHash []byte, root []byte) error {
 	var ch32 [32]byte
 	copy(ch32[:], certHash)
 	chr, err := certRegContract.IsRevoked(callOpts, ch32)
 	if err != nil {
-		return false, err
+		return err
 	}
 	if chr == true {
-		return true, nil
+		return errors.New("Certificate has been revoked")
 	}
 
 	var r32 [32]byte
 	copy(r32[:], root)
 	rr, err := certRegContract.IsRevoked(callOpts, r32)
 	if err != nil {
-		return false, err
+		return err
 	}
 	if rr == true {
-		return true, nil
+		return errors.New("Certificate batch has been revoked")
 	}
 
-	return false, nil
+	color.Set(color.FgGreen)
+	println("- SUCCESS - Certificate not revoked")
+	color.Unset()
+
+	return nil
 }
