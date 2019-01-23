@@ -25,27 +25,48 @@ import (
 	"strings"
 )
 
+const (
+	contractAddress = "0x9Aa3E42eCD64D3E36e32bD883d1Cc3c6659b8f6a"
+	node            = "https://kovan.infura.io/v3/87abed49b20c49bd99f9bc2645023f34"
+)
+
+var (
+	certRegContract *contracts.CertRegistryCaller
+	callOpts        *bind.CallOpts
+)
+
 // TODO add proper error handling / logging
 func main() {
 	color.Set(color.FgGreen, color.Bold)
-	println(`____   ____           .__.__  _____`)
-	println(`\   \ /   /___________|__|__|/ ____\`)
-	println(` \   Y   // __ \_  __ \  |  \   __\ `)
-	println(`  \     /\  ___/|  | \/  |  ||  |`)
-	println(`   \___/  \_____>__|  |__|__||__|`)
+	println(`____   ____           .__.__  _____  `)
+	println(`\   \ /   /___________|__|__|/ ____\ `)
+	println(` \   Y   // __ \_  __ \  |  \   __\  `)
+	println(`  \     /\  ___/|  | \/  |  ||  |    `)
+	println(`   \___/  \_____>__|  |__|__||__|    `)
 	println("")
 	color.Unset()
 
 	println("application - Veriif (c) 2019 TiiQu Ltd")
-	println("version - 0.1.0")
+	println("version - 0.1.1")
 	println("")
+
+	err := initContract()
 
 	// Get file name from input
 	for {
+		if err != nil {
+			color.Set(color.FgRed)
+			println("- ERROR   - " + err.Error())
+			color.Unset()
+		}
+
 		reader := bufio.NewReader(os.Stdin)
 		print("Enter certificate filename: ")
 		color.Set(color.FgHiYellow)
 		filename, _ := reader.ReadString('\n')
+
+		// TODO check for "exit", then exit application
+
 		filename = strings.TrimSpace(filename)
 		println("- Processing : " + filename)
 		color.Unset()
@@ -72,6 +93,26 @@ func main() {
 			color.Unset()
 		}
 	}
+}
+
+func initContract() error {
+	ca := common.HexToAddress(contractAddress)
+	client, err := ethclient.Dial(node)
+	if err != nil {
+		return errors.Wrap(err, "Failed to connect to the Ethereum client: %v")
+	}
+
+	certRegContract, err = contracts.NewCertRegistryCaller(ca, client)
+	if err != nil {
+		return err
+	}
+
+	callOpts = &bind.CallOpts{
+		Pending: false,
+		Context: context.TODO(),
+	}
+
+	return nil
 }
 
 func verify(filename string) error {
@@ -125,6 +166,8 @@ func verify(filename string) error {
 	if err != nil {
 		return err
 	}
+
+	// TODO Check hash or merkle root has been revoked
 
 	return nil
 }
@@ -184,7 +227,7 @@ func checkSigVerifies(certHash []byte, data models.CertPacket) error {
 
 	err = rsa.VerifyPKCS1v15(pk, crypto.SHA256, certHash, sig)
 	if err != nil {
-		return errors.Wrap(err,"Signature does not verify")
+		return errors.Wrap(err, "Signature does not verify")
 	} else {
 		color.Set(color.FgGreen)
 		println("- SUCCESS - Signature verification")
@@ -272,26 +315,33 @@ func proofFromModel(md models.MerkleProof) (gomerkle.Proof, error) {
 }
 
 func rootExistsOnChain(root []byte) (bool, error) {
-	contractAddress := common.HexToAddress("0x1099a30581552418062f09f701d15558253daae9")
-	node := "https://kovan.infura.io/v3/87abed49b20c49bd99f9bc2645023f34"
-
-	client, err := ethclient.Dial(node)
-	if err != nil {
-		return false, errors.Wrap(err,"Failed to connect to the Ethereum client: %v")
-	}
-
-	certRegContract, err := contracts.NewCertRegistryCaller(contractAddress, client)
-	if err != nil {
-		return false, err
-	}
-
 	var mr32 [32]byte
 	copy(mr32[:], root)
 
-	callOpts := &bind.CallOpts{
-		Pending: false,
-		Context: context.TODO(),
+	return certRegContract.RootExists(callOpts, mr32)
+}
+
+// TODO finsh this
+func checkHashRevoked(certHash []byte, root []byte) (bool, error) {
+	var ch32 [32]byte
+	copy(ch32[:], certHash)
+	chr, err := certRegContract.IsRevoked(callOpts, ch32)
+	if err != nil {
+		return false, err
+	}
+	if chr == true {
+		return true, nil
 	}
 
-	return certRegContract.RootExists(callOpts, mr32)
+	var r32 [32]byte
+	copy(r32[:], root)
+	rr, err := certRegContract.IsRevoked(callOpts, r32)
+	if err != nil {
+		return false, err
+	}
+	if rr == true {
+		return true, nil
+	}
+
+	return false, nil
 }
