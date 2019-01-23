@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"crypto"
 	"crypto/rsa"
 	"crypto/sha256"
@@ -9,14 +10,15 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
+	"github.com/Samyoul/Veriif/contracts"
 	"github.com/Samyoul/Veriif/models"
 	"github.com/davecgh/go-spew/spew"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 	"io/ioutil"
-	"log"
 	"regexp"
 )
 
@@ -64,18 +66,13 @@ func main() {
 		println("FAIL - Merkle proof verify")
 	}
 
-	// TODO check merkle root is on blockchain
-	// TODO create golang ABI for contract
-	//  https://github.com/Samyoul/TiiQu-Platform/blob/386826d546d6a5be44e5b4ac968d920c7ac7757e/README.md#building-go-contract-interfaces
-	//  https://stackoverflow.com/questions/42520417/how-to-call-an-ethereum-contract-from-go
-	contractAddress := common.HexToAddress("0x1099a30581552418062f09f701d15558253daae9")
-	node := "https://kovan.infura.io/v3/3acc90c4079a4c3daccb59d50e893e14"
-	client, err := ethclient.Dial(node)
-	if err != nil {
-		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
+	// Check merkle root is on blockchain
+	exists, _ := rootExistsOnChain(mr)
+	if exists {
+		println("SUCCESS - Merkle root on-chain")
+	} else {
+		println("FAIL - Merkle root on-chain")
 	}
-
-	spew.Dump(contractAddress, client)
 
 }
 
@@ -139,4 +136,29 @@ func proofFromModel(md models.MerkleProof) (gomerkle.Proof, error) {
 	}
 
 	return pf, nil
+}
+
+func rootExistsOnChain(root []byte) (bool, error) {
+	contractAddress := common.HexToAddress("0x1099a30581552418062f09f701d15558253daae9")
+	node := "https://kovan.infura.io/v3/3acc90c4079a4c3daccb59d50e893e14"
+
+	client, err := ethclient.Dial(node)
+	if err != nil {
+		return false, errors.Wrap(err,"Failed to connect to the Ethereum client: %v")
+	}
+
+	certRegContract, err := contracts.NewCertRegistryCaller(contractAddress, client)
+	if err != nil {
+		return false, err
+	}
+
+	var mr32 [32]byte
+	copy(mr32[:], root)
+
+	callOpts := &bind.CallOpts{
+		Pending: false,
+		Context: context.TODO(),
+	}
+
+	return certRegContract.RootExists(callOpts, mr32)
 }
