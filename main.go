@@ -24,20 +24,44 @@ import (
 
 // TODO add proper error handling / logging
 func main() {
+	err := verify()
+	if err != nil {
+		spew.Dump(err)
+	}
+}
+
+func verify() error {
+	// Get the cert file
+	content, err := ioutil.ReadFile("example/cert_0.pdf")
+	if err != nil {
+		return err
+	}
 
 	// Get the cert data from a file
-	content, _ := ioutil.ReadFile("example/cert_0.pdf")
-	cert, _ := findCert(content)
+	cert, err := findCert(content)
+	if err != nil {
+		return err
+	}
 
 	// Parse the cert data into the expected struct
 	data := models.CertPacket{}
-	json.Unmarshal(cert, &data)
+	err = json.Unmarshal(cert, &data)
+	if err != nil {
+		return err
+	}
 
 	// Calculate the hash of the data
-	calcHash, _ := calculateDataHash(data)
+	calcHash, err := calculateDataHash(data)
+	if err != nil {
+		return err
+	}
 
 	// Check the calculated hash matches the cert hash
-	certHash, _ := data.Hash.Decode()
+	certHash, err := data.Hash.Decode()
+	if err != nil {
+		return err
+	}
+
 	if bytes.Equal(calcHash[:], certHash) {
 		println("SUCCESS - Hash match")
 	} else {
@@ -47,9 +71,17 @@ func main() {
 	// TODO check public key is known
 
 	// Check the signature verifies
-	pk, _ := parsePublicKey([]byte(data.PublicKey))
-	sig, _ := data.Signature.Decode()
-	err := rsa.VerifyPKCS1v15(pk, crypto.SHA256, certHash, sig)
+	pk, err := parsePublicKey([]byte(data.PublicKey))
+	if err != nil {
+		return err
+	}
+
+	sig, err := data.Signature.Decode()
+	if err != nil {
+		return err
+	}
+
+	err = rsa.VerifyPKCS1v15(pk, crypto.SHA256, certHash, sig)
 	if err != nil {
 		spew.Dump("FAIL - Signature verification", err)
 	} else {
@@ -57,8 +89,16 @@ func main() {
 	}
 
 	// Check the Merkle proof is verifies
-	mp, _ := proofFromModel(data.MerkleProof)
-	mr, _ := data.MerkleRoot.Decode()
+	mp, err := proofFromModel(data.MerkleProof)
+	if err != nil {
+		return err
+	}
+
+	mr, err := data.MerkleRoot.Decode()
+	if err != nil {
+		return err
+	}
+
 	mt := gomerkle.NewTree(sha256.New())
 	if mt.VerifyProof(mp, mr, certHash) {
 		println("SUCCESS - Merkle proof verify")
@@ -67,13 +107,18 @@ func main() {
 	}
 
 	// Check merkle root is on blockchain
-	exists, _ := rootExistsOnChain(mr)
+	exists, err := rootExistsOnChain(mr)
+	if err != nil {
+		return err
+	}
+
 	if exists {
 		println("SUCCESS - Merkle root on-chain")
 	} else {
 		println("FAIL - Merkle root on-chain")
 	}
 
+	return nil
 }
 
 func findCert(location []byte) ([]byte, error) {
