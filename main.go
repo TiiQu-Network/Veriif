@@ -57,65 +57,29 @@ func verify() error {
 	}
 
 	// Check the calculated hash matches the cert hash
-	certHash, err := data.Hash.Decode()
+	certHash, err := checkHashMatch(calcHash[:], data)
 	if err != nil {
 		return err
-	}
-
-	if bytes.Equal(calcHash[:], certHash) {
-		println("SUCCESS - Hash match")
-	} else {
-		println("FAIL - Hash match")
 	}
 
 	// TODO check public key is known
 
 	// Check the signature verifies
-	pk, err := parsePublicKey([]byte(data.PublicKey))
+	err = checkSigVerifies(certHash, data)
 	if err != nil {
 		return err
-	}
-
-	sig, err := data.Signature.Decode()
-	if err != nil {
-		return err
-	}
-
-	err = rsa.VerifyPKCS1v15(pk, crypto.SHA256, certHash, sig)
-	if err != nil {
-		spew.Dump("FAIL - Signature verification", err)
-	} else {
-		println("SUCCESS - Signature verification")
 	}
 
 	// Check the Merkle proof is verifies
-	mp, err := proofFromModel(data.MerkleProof)
+	mr, err := checkMerkleProof(certHash, data)
 	if err != nil {
 		return err
-	}
-
-	mr, err := data.MerkleRoot.Decode()
-	if err != nil {
-		return err
-	}
-
-	mt := gomerkle.NewTree(sha256.New())
-	if mt.VerifyProof(mp, mr, certHash) {
-		println("SUCCESS - Merkle proof verify")
-	} else {
-		println("FAIL - Merkle proof verify")
 	}
 
 	// Check merkle root is on blockchain
-	exists, err := rootExistsOnChain(mr)
+	err = checkMerkelRoot(mr)
 	if err != nil {
 		return err
-	}
-
-	if exists {
-		println("SUCCESS - Merkle root on-chain")
-	} else {
-		println("FAIL - Merkle root on-chain")
 	}
 
 	return nil
@@ -144,6 +108,78 @@ func calculateDataHash(cert models.CertPacket) ([32]byte, error) {
 
 	hash := sha256.Sum256(jn)
 	return hash, nil
+}
+
+func checkHashMatch(calcHash []byte, data models.CertPacket) ([]byte, error) {
+	certHash, err := data.Hash.Decode()
+	if err != nil {
+		return nil, err
+	}
+
+	if bytes.Equal(calcHash[:], certHash) {
+		println("SUCCESS - Hash match")
+	} else {
+		return nil, errors.New("FAIL - Hash match")
+	}
+
+	return certHash, nil
+}
+
+func checkSigVerifies(certHash []byte, data models.CertPacket) error {
+	pk, err := parsePublicKey([]byte(data.PublicKey))
+	if err != nil {
+		return err
+	}
+
+	sig, err := data.Signature.Decode()
+	if err != nil {
+		return err
+	}
+
+	err = rsa.VerifyPKCS1v15(pk, crypto.SHA256, certHash, sig)
+	if err != nil {
+		return errors.Wrap(err,"FAIL - Signature verification")
+	} else {
+		println("SUCCESS - Signature verification")
+	}
+
+	return nil
+}
+
+func checkMerkleProof(certHash []byte, data models.CertPacket) ([]byte, error) {
+	mp, err := proofFromModel(data.MerkleProof)
+	if err != nil {
+		return nil, err
+	}
+
+	mr, err := data.MerkleRoot.Decode()
+	if err != nil {
+		return nil, err
+	}
+
+	mt := gomerkle.NewTree(sha256.New())
+	if mt.VerifyProof(mp, mr, certHash) {
+		println("SUCCESS - Merkle proof verify")
+	} else {
+		return nil, errors.New("FAIL - Merkle proof verify")
+	}
+
+	return mr, nil
+}
+
+func checkMerkelRoot(merkleRoot []byte) error {
+	exists, err := rootExistsOnChain(merkleRoot)
+	if err != nil {
+		return err
+	}
+
+	if exists {
+		println("SUCCESS - Merkle root on-chain")
+	} else {
+		return errors.New("FAIL - Merkle root on-chain")
+	}
+
+	return nil
 }
 
 // parsePublicKey parses a PEM encoded private key.
