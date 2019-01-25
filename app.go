@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"github.com/pkg/browser"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -49,6 +50,10 @@ func (a App) initCLI() {
 func (a App) initBrowser() {
 	a.initRoutes()
 	a.initLoadingText()
+	err := initContract()
+	if err != nil {
+		printError(err)
+	}
 }
 
 func (a App) initRoutes() {
@@ -96,7 +101,13 @@ func (a App) verify() {
 	filename := getInput()
 	printProcessing(filename)
 
-	err := verify(filename)
+	// Get the cert file
+	content, err := ioutil.ReadFile(filename)
+	if err != nil {
+		printError(err)
+	}
+
+	_, err = verify(content)
 	if err != nil {
 		printVerifyFail(err)
 	} else {

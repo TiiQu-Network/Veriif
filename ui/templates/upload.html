@@ -1,14 +1,24 @@
 {{define  "content"}}
     <div class="text-center">
-        <h1>Veriif Alpha</h1>
-        <h2>Import the certification file</h2>
+        <h1 class="text-light">Veriif Alpha</h1>
+        <h2 class="text-muted">Import the certification file</h2>
 
         <br/>
         <div class="alert alert-secondary">
             <br/>
             <form enctype="multipart/form-data" method="post">
-                <input type="file" name="uploadfile" />
-                <input type="submit" value="Import" />
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="uploadfile" name="uploadfile">
+                    <label class="custom-file-label" for="uploadfile">Choose certificate</label>
+                </div>
+
+                <br/><br/>
+                <div class="row">
+                    <div class="offset-2 col-8">
+                        <input class="btn btn-success btn-block" type="submit" value="Verify" />
+                    </div>
+                </div>
+
             </form>
             <br/>
         </div>
@@ -16,5 +26,11 @@
 {{end}}
 
 {{ define "js" }}
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>
+        $('.custom-file-input').on('change', function() {
+            let fileName = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').addClass("selected").html(fileName);
+        });
+    </script>
 {{ end}}

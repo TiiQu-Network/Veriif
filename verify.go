@@ -11,69 +11,69 @@ import (
 	"github.com/Samyoul/Veriif/models"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
-	"io/ioutil"
 	"regexp"
 )
 
-func verify(filename string) error {
-	// Get the cert file
-	content, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return err
-	}
+func verify(content []byte) (map[string]bool, error) {
+	output := map[string]bool{}
 
 	// Get the cert data from a file
 	cert, err := findCert(content)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// Parse the cert data into the expected struct
 	data := models.CertPacket{}
 	err = json.Unmarshal(cert, &data)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// Calculate the hash of the data
 	calcHash, err := calculateDataHash(data)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// Check the calculated hash matches the cert hash
 	certHash, err := checkHashMatch(calcHash[:], data)
 	if err != nil {
-		return err
+		return output, err
 	}
+	output["check_hash"] = true
 
 	// TODO check public key is known
 
 	// Check the signature verifies
 	err = checkSigVerifies(certHash, data)
 	if err != nil {
-		return err
+		return output, err
 	}
+	output["check_sig"] = true
 
 	// Check the Merkle proof is verifies
 	mr, err := checkMerkleProof(certHash, data)
 	if err != nil {
-		return err
+		return output, err
 	}
+	output["check_merkle_proof"] = true
 
 	// Check merkle root is on blockchain
 	err = checkMerkelRoot(mr)
 	if err != nil {
-		return err
+		return output, err
 	}
+	output["check_merkle_root"] = true
 
 	// Check hash or merkle root has been revoked
 	err = checkHashRevoked(certHash, mr)
 	if err != nil {
-		return err
+		return output, err
 	}
+	output["check_revocation"] = true
 
-	return nil
+	return output, nil
 }
 
 func findCert(location []byte) ([]byte, error) {

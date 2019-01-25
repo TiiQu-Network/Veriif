@@ -1,0 +1,45 @@
+{{define  "content"}}
+    <div class="text-center">
+        <h1 class="text-light">Veriif Alpha</h1>
+        <h2 class="text-muted">Verification results</h2>
+    </div>
+
+    <br/>
+    <div class="alert alert-secondary">
+        <br/>
+        {{if .check_hash}}
+            <h3 class="text-success">check_hash</h3>
+        {{else}}
+            <h3 class="text-danger">check_hash</h3>
+        {{end}}
+
+        {{if .check_sig}}
+            <h3 class="text-success">check_sig</h3>
+        {{else}}
+            <h3 class="text-danger">check_sig</h3>
+        {{end}}
+
+        {{if .check_merkle_proof}}
+            <h3 class="text-success">check_merkle_proof</h3>
+        {{else}}
+            <h3 class="text-danger">check_merkle_proof</h3>
+        {{end}}
+
+        {{if .check_merkle_root}}
+            <h3 class="text-success">check_merkle_root</h3>
+        {{else}}
+            <h3 class="text-danger">check_merkle_root</h3>
+        {{end}}
+
+        {{if .check_revocation}}
+            <h3 class="text-success">check_revocation</h3>
+        {{else}}
+            <h3 class="text-danger">check_revocation</h3>
+        {{end}}
+
+    </div>
+{{end}}
+
+{{ define "js" }}
+
+{{ end}}
