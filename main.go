@@ -1,7 +1,7 @@
 package main
 
 func main() {
-	app := App{}
+	app := NewApp()
 	app.Init()
 	app.Run()
 }

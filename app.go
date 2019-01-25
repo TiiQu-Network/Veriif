@@ -1,17 +1,28 @@
 package main
 
-import "flag"
+import (
+	"flag"
+	"github.com/pkg/browser"
+	"log"
+	"net/http"
+)
 
 // TODO add proper error handling / logging
 type App struct {
-	Mode uint
+	ErrLogger *log.Logger
+	Mode *uint
+}
+
+func NewApp() App {
+	return App{
+		ErrLogger: initErrLogger(),
+		Mode: getParams(),
+	}
 }
 
 // Application Initialisation
 func (a App) Init() {
-	a.getParams()
-
-	switch a.Mode {
+	switch *a.Mode {
 	case 1:
 		a.initCLI()
 		break
@@ -21,10 +32,10 @@ func (a App) Init() {
 	}
 }
 
-func (a App) getParams() {
-	mode := flag.Uint("mode", 1, "System Mode :\n - 1 for CLI mode\n - 2 for browser UI mode\n -")
+func getParams() *uint {
+	mode := flag.Uint("mode", 2, "System Mode :\n - 1 for CLI mode\n - 2 for browser UI mode\n -")
 	flag.Parse()
-	a.Mode = *mode
+	return mode
 }
 
 func (a App) initCLI() {
@@ -36,13 +47,30 @@ func (a App) initCLI() {
 }
 
 func (a App) initBrowser() {
+	a.initRoutes()
+	a.initLoadingText()
+}
 
+func (a App) initRoutes() {
+	// File routes
+	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir(cssDir))))
+	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir(jsDir))))
+
+	// Application routes
+	http.HandleFunc("/", a.Welcome)
+}
+
+func (a App) initLoadingText() {
+	printTitle()
+	println("Veriif running ...")
+	println("Opening http://localhost:8282 ...")
+	println("Please wait... Loading...")
 }
 
 // Application Running
 
 func (a App) Run() {
-	switch a.Mode {
+	switch *a.Mode {
 	case 1:
 		a.runCLI()
 		break
@@ -59,7 +87,8 @@ func (a App) runCLI() {
 }
 
 func (a App) runBrowser() {
-
+	a.Log(browser.OpenURL("http://localhost:8282"), "Opening browser")
+	a.LogFatal(http.ListenAndServe(":8282", nil), "While serving")
 }
 
 func (a App) verify() {
