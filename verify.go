@@ -8,9 +8,7 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"encoding/pem"
-	"fmt"
 	"github.com/Samyoul/Veriif/models"
-	"github.com/fatih/color"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 	"io/ioutil"
@@ -110,9 +108,7 @@ func checkHashMatch(calcHash []byte, data models.CertPacket) ([]byte, error) {
 	}
 
 	if bytes.Equal(calcHash[:], certHash) {
-		color.Set(color.FgGreen)
-		println("- SUCCESS - Hash match")
-		color.Unset()
+		printSuccess("Hash match")
 	} else {
 		return nil, errors.New("Hash does not match")
 	}
@@ -135,9 +131,7 @@ func checkSigVerifies(certHash []byte, data models.CertPacket) error {
 	if err != nil {
 		return errors.Wrap(err, "Signature does not verify")
 	} else {
-		color.Set(color.FgGreen)
-		println("- SUCCESS - Signature verification")
-		color.Unset()
+		printSuccess("Signature verification")
 	}
 
 	return nil
@@ -156,9 +150,7 @@ func checkMerkleProof(certHash []byte, data models.CertPacket) ([]byte, error) {
 
 	mt := gomerkle.NewTree(sha256.New())
 	if mt.VerifyProof(mp, mr, certHash) {
-		color.Set(color.FgGreen)
-		println("- SUCCESS - Merkle proof verification")
-		color.Unset()
+		printSuccess("Merkle proof verification")
 	} else {
 		return nil, errors.New("Merkle proof does not verify")
 	}
@@ -173,9 +165,7 @@ func checkMerkelRoot(merkleRoot []byte) error {
 	}
 
 	if exists {
-		color.Set(color.FgGreen)
-		println("- SUCCESS - Merkle root on chain")
-		color.Unset()
+		printSuccess("Merkle root on chain")
 	} else {
 		return errors.New("Merkle root not on chain")
 	}
@@ -198,7 +188,7 @@ func parsePublicKey(pemBytes []byte) (*rsa.PublicKey, error) {
 		}
 		return pk, nil
 	default:
-		return nil, fmt.Errorf("unsupported key type %q", block.Type)
+		return nil, errors.Errorf("unsupported key type %q", block.Type)
 	}
 }
 
@@ -248,9 +238,7 @@ func checkHashRevoked(certHash []byte, root []byte) error {
 		return errors.New("Certificate batch has been revoked")
 	}
 
-	color.Set(color.FgGreen)
-	println("- SUCCESS - Certificate not revoked")
-	color.Unset()
+	printSuccess("Certificate not revoked")
 
 	return nil
 }
