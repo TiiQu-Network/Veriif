@@ -19,7 +19,13 @@ func (a App) Welcome(w http.ResponseWriter, r *http.Request) {
 		cert, err := getCert(r)
 		a.Log(err, "Getting cert data")
 
-		data, err := verify(cert)
+		certPacket, results, err := verify(cert)
+
+		data := map[string]interface{}{}
+		data["results"] = results
+		data["cert_data"] = certPacket.Data
+		data["fail"] = err
+
 		println("")
 		t, err := template.ParseFiles(GetTemplates("base", "result"))
 

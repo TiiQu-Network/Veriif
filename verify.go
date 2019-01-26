@@ -14,32 +14,33 @@ import (
 	"regexp"
 )
 
-func verify(content []byte) (map[string]bool, error) {
+func verify(content []byte) (models.CertPacket, map[string]bool, error) {
 	output := map[string]bool{}
+	certPacket := models.CertPacket{}
 
 	// Get the cert data from a file
 	cert, err := findCert(content)
 	if err != nil {
-		return nil, err
+		return certPacket, nil, err
 	}
 
 	// Parse the cert data into the expected struct
 	data := models.CertPacket{}
 	err = json.Unmarshal(cert, &data)
 	if err != nil {
-		return nil, err
+		return data, nil, err
 	}
 
 	// Calculate the hash of the data
 	calcHash, err := calculateDataHash(data)
 	if err != nil {
-		return nil, err
+		return data, nil, err
 	}
 
 	// Check the calculated hash matches the cert hash
 	certHash, err := checkHashMatch(calcHash[:], data)
 	if err != nil {
-		return output, err
+		return data, output, err
 	}
 	output["check_hash"] = true
 
@@ -48,32 +49,32 @@ func verify(content []byte) (map[string]bool, error) {
 	// Check the signature verifies
 	err = checkSigVerifies(certHash, data)
 	if err != nil {
-		return output, err
+		return data, output, err
 	}
 	output["check_sig"] = true
 
 	// Check the Merkle proof is verifies
 	mr, err := checkMerkleProof(certHash, data)
 	if err != nil {
-		return output, err
+		return data, output, err
 	}
 	output["check_merkle_proof"] = true
 
 	// Check merkle root is on blockchain
 	err = checkMerkelRoot(mr)
 	if err != nil {
-		return output, err
+		return data, output, err
 	}
 	output["check_merkle_root"] = true
 
 	// Check hash or merkle root has been revoked
 	err = checkHashRevoked(certHash, mr)
 	if err != nil {
-		return output, err
+		return data, output, err
 	}
 	output["check_revocation"] = true
 
-	return output, nil
+	return data, output, nil
 }
 
 func findCert(location []byte) ([]byte, error) {

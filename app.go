@@ -107,7 +107,7 @@ func (a App) verify() {
 		printError(err)
 	}
 
-	_, err = verify(content)
+	_, _, err = verify(content)
 	if err != nil {
 		printVerifyFail(err)
 	} else {
