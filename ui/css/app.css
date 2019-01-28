@@ -1,0 +1,105 @@
+body{
+    font-family: "Nunito Sans", sans-serif !important;
+    background: #101010;
+    color: #ffffff;
+}
+
+@-webkit-keyframes Gradient {
+    0% {
+        background-position: 0 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0 50%
+    }
+}
+
+@-moz-keyframes Gradient {
+    0% {
+        background-position: 0 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0 50%
+    }
+}
+
+@keyframes Gradient {
+    0% {
+        background-position: 0 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0 50%
+    }
+}
+
+.container.middle {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bg-transparent-white{
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.bg-transparent-black{
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+h1, h2 {
+    color: #fff;
+    text-shadow: 4px 4px 20px rgba(0, 0, 0, 0.7);
+    font-weight: 700;
+}
+
+.btn-tiiqu {
+    color: #fff;
+    background-color: #18E1C9;
+    border-color: #18E1C9;
+}
+
+.text-tiiqu {
+    color: #18E1C9;
+}
+
+.custom-file-label,
+.custom-file-label::after {
+    height: auto;
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+}
+
+.custom-file-input,
+.custom-file-label,
+.custom-file-label::after {
+    cursor: pointer;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /*margin-bottom: 60px; /* Margin bottom by footer height */
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Set the fixed height of the footer here */
+    line-height: 60px; /* Vertically center the text there */
+}

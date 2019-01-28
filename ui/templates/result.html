@@ -1,17 +1,17 @@
 {{define  "content"}}
     <div class="text-center">
-        <h1 class="text-light">Veriif Alpha</h1>
+        <h1 class="text-light">VERiiF</h1>
         <h2 class="text-light">Verification results</h2>
     </div>
 
     <br/>
-    <div class="alert bg-transparent-white">
+    <div class="alert bg-transparent-black">
 
         <h3>Result</h3>
         {{if .fail}}
             <h4 class="text-danger"><i class="fas fa-exclamation-circle"></i> Fail - {{ .fail }}</h4>
         {{else}}
-            <h4 class="text-success"><i class="fas fa-shield-alt"></i> Certificate Verified!</h4>
+            <h4 class="text-tiiqu"><i class="fas fa-shield-alt"></i> Certificate Verified!</h4>
         {{end}}
 
         <hr/>
@@ -28,31 +28,31 @@
 
         <h3>Result Details:</h3>
         {{if .results.check_hash}}
-            <h5 class="text-success">Success - Hash matches</h5>
+            <h5 class="text-tiiqu">Success - Hash matches</h5>
         {{else}}
             <h5 class="text-danger">Fail - Hash does not match</h5>
         {{end}}
 
         {{if .results.check_sig}}
-            <h5 class="text-success">Success - Signature verification</h5>
+            <h5 class="text-tiiqu">Success - Signature verification</h5>
         {{else}}
             <h5 class="text-danger">Fail - Signature does not verify</h5>
         {{end}}
 
         {{if .results.check_merkle_proof}}
-            <h5 class="text-success">Success - Merkle proof verifies</h5>
+            <h5 class="text-tiiqu">Success - Merkle proof verifies</h5>
         {{else}}
             <h5 class="text-danger">Fail - Merkle proof does not verify</h5>
         {{end}}
 
         {{if .results.check_merkle_root}}
-            <h5 class="text-success">Success - Merkle root on chain</h5>
+            <h5 class="text-tiiqu">Success - Merkle root on chain</h5>
         {{else}}
             <h5 class="text-danger">Fail - Merkle root not on chain</h5>
         {{end}}
 
         {{if .results.check_revocation}}
-            <h5 class="text-success">Success - Certificate valid</h5>
+            <h5 class="text-tiiqu">Success - Certificate valid</h5>
         {{else}}
             <h5 class="text-danger">Fail - Certificate has been revoked</h5>
         {{end}}
@@ -61,5 +61,17 @@
 {{end}}
 
 {{ define "js" }}
-
+    <script src="../js/three.r92.min.js"></script>
+    <script src="../js/vanta.waves.min.js"></script>
+    <script>
+        VANTA.WAVES({
+            el: "body",
+            {{if .fail}}
+            color: 0x631213,
+            {{else}}
+            color: 0x174944,
+            {{end}}
+            shininess: 6.00
+        });
+    </script>
 {{ end}}
