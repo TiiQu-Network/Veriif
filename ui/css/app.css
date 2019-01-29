@@ -2,50 +2,17 @@ body{
     font-family: "Nunito Sans", sans-serif !important;
     background: #101010;
     color: #ffffff;
-}
-
-@-webkit-keyframes Gradient {
-    0% {
-        background-position: 0 50%
-    }
-    50% {
-        background-position: 100% 50%
-    }
-    100% {
-        background-position: 0 50%
-    }
-}
-
-@-moz-keyframes Gradient {
-    0% {
-        background-position: 0 50%
-    }
-    50% {
-        background-position: 100% 50%
-    }
-    100% {
-        background-position: 0 50%
-    }
-}
-
-@keyframes Gradient {
-    0% {
-        background-position: 0 50%
-    }
-    50% {
-        background-position: 100% 50%
-    }
-    100% {
-        background-position: 0 50%
-    }
+    height: 100%;
 }
 
 .container.middle {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    min-height: calc(100% - 121px);
+    display: flex;
+}
+
+.inner.middle {
+    margin: auto 0;
+    width:100%;
 }
 
 .bg-transparent-white{
@@ -87,19 +54,8 @@ h1, h2 {
     cursor: pointer;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
-body {
-    /*margin-bottom: 60px; /* Margin bottom by footer height */
-}
 .footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
-    height: 60px; /* Set the fixed height of the footer here */
-    line-height: 60px; /* Vertically center the text there */
+    height: 60px;
+    line-height: 60px;
 }
