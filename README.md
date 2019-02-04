@@ -5,7 +5,7 @@ Veriif is a verification application that will verify certificates issued by a C
 ## Getting started
 Execute the application file you should then see a prompt like the following:
 
-![Samuel Hawksby-Robinson - Veriif screenshot](https://user-images.githubusercontent.com/5702426/51622864-67635d80-1f2f-11e9-975b-1f730e89e932.png)
+![Samuel Hawksby-Robinson - Veriif screenshot](https://user-images.githubusercontent.com/5702426/51871815-5b243980-234f-11e9-9f3b-9f5ddf770278.png)
 
 For testing purposes you can enter the file names of the two example files provided in the below binaries:
 
@@ -19,7 +19,8 @@ example/cert_0.pdf
 example/cert_1.pdf
 ```
 
-![screenshot 2019-01-23 16 57 01](https://user-images.githubusercontent.com/5702426/51623140-f1abc180-1f2f-11e9-8040-87a6d41cb135.png)
+![screenshot 2019-01-23 16 57 01](https://user-images.githubusercontent.com/5702426/51871818-5e1f2a00-234f-11e9-9834-140c81709d09.png)
+![screenshot 2019-01-23 16 57 01](https://user-images.githubusercontent.com/5702426/51871825-624b4780-234f-11e9-9fd8-2fc7deed6503.png)
 
 ## Downloads
 
