@@ -28,13 +28,14 @@ func (a App) Init() {
 		a.initCLI()
 		break
 	case 2:
+	case 3:
 		a.initBrowser()
 		break
 	}
 }
 
 func getParams() *uint {
-	mode := flag.Uint("mode", 2, "System Mode :\n - 1 for CLI mode\n - 2 for browser UI mode\n -")
+	mode := flag.Uint("mode", 2, "System Mode :\n - 1 for CLI mode\n - 2 for browser UI mode\n - 3 for Docker mode")
 	flag.Parse()
 	return mode
 }
@@ -82,6 +83,9 @@ func (a App) Run() {
 	case 2:
 		a.runBrowser()
 		break
+	case 3:
+		a.runDocker()
+		break
 	}
 }
 
@@ -94,6 +98,10 @@ func (a App) runCLI() {
 func (a App) runBrowser() {
 	a.Log(browser.OpenURL("http://localhost:8282"), "Opening browser")
 	a.LogFatal(http.ListenAndServe(":8282", nil), "While serving")
+}
+
+func (a App) runDocker() {
+	a.LogFatal(http.ListenAndServe(":80", nil), "While serving")
 }
 
 func (a App) verify() {

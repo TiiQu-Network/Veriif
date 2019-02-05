@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  veriif:
+    container_name: veriif
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - VIRTUAL_HOST=verify.tiiqu.com, verify.35.178.44.14
