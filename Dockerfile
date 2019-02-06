@@ -1,4 +1,4 @@
-FROM golang:1.10 as builder
+FROM golang:1.10
 
 EXPOSE 80
 
@@ -16,9 +16,4 @@ RUN mv Veriif /go/bin/
 RUN mv ./files /go/bin/
 RUN mv ./ui /go/bin/
 WORKDIR /go/bin/
-
-FROM alpine:latest
-WORKDIR /app/
-COPY --from=builder /go/bin/ .
-# Set the container's entrypoint
 ENTRYPOINT Veriif -mode=3 && /bin/bash
