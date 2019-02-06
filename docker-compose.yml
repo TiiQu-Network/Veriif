@@ -2,6 +2,7 @@ version: '3'
 
 services:
   nginx-proxy:
+    container_name: nginx-proxy
     image: jwilder/nginx-proxy
     ports:
       - "80:80"
@@ -14,9 +15,13 @@ services:
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
-    volumes-from: nginx-proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/nginx/certs
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+    environment:
+        - NGINX_PROXY_CONTAINER=nginx-proxy
 
   veriif:
     container_name: veriif
@@ -25,5 +30,5 @@ services:
       dockerfile: Dockerfile
     environment:
       - VIRTUAL_HOST=verify.tiiqu.com, 35.178.44.14
-      - LETSENCRYPT_HOST=35.178.44.14
+      - LETSENCRYPT_HOST=verify.tiiqu.com
       - LETSENCRYPT_EMAIL=samuel.hr@tiiqu.com
