@@ -9,17 +9,17 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /etc/nginx/certs
-      - /etc/nginx/vhost.d
-      - /usr/share/nginx/html
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - nginx-html:/usr/share/nginx/html
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /etc/nginx/certs
-      - /etc/nginx/vhost.d
-      - /usr/share/nginx/html
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - nginx-html:/usr/share/nginx/html
     environment:
         - NGINX_PROXY_CONTAINER=nginx-proxy
 
@@ -29,6 +29,11 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - VIRTUAL_HOST=verify.tiiqu.com, 35.178.44.14
+      - VIRTUAL_HOST=verify.localhost, verify.tiiqu.com, 35.178.44.14
       - LETSENCRYPT_HOST=verify.tiiqu.com
       - LETSENCRYPT_EMAIL=samuel.hr@tiiqu.com
+
+volumes:
+  certs:
+  vhost:
+  nginx-html:

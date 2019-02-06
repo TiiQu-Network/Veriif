@@ -1,4 +1,4 @@
-FROM golang:1.10
+FROM golang:1.10 as builder
 
 EXPOSE 80
 
@@ -17,5 +17,8 @@ RUN mv ./files /go/bin/
 RUN mv ./ui /go/bin/
 WORKDIR /go/bin/
 
-# Remove the project source code
+FROM alpine:latest
+WORKDIR /app/
+COPY --from=builder /go/bin/ .
+# Set the container's entrypoint
 ENTRYPOINT Veriif -mode=3 && /bin/bash
