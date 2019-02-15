@@ -19,11 +19,10 @@
 
         <h3>Certificate Details:</h3>
         <p>
-            Name : {{ .cert_data.RecipientName }}<br/>
-            Type : {{ .cert_data.CertType }}<br/>
-            Level : {{ .cert_data.CertLevel }}<br/>
-            Subject : {{ .cert_data.CertName }}<br/>
-            Date : {{ .cert_data.CertDate }}<br/>
+            <!-- TODO format the keys so they are first letter uppercase and are not snakecase -->
+            {{ range $key, $value := .cert_data }}
+                {{ $key }} : {{ $value }}<br/>
+            {{ end }}
         </p>
         <hr/>
 

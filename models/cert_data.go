@@ -11,12 +11,6 @@ type CertPacket struct {
 	Signature   EncodingGroup `json:"signature"`
 }
 
-type CertData struct {
-	RecipientName string `json:"name" csv:"name"`
-	CertType      string `json:"cert_type" csv:"type"`
-	CertLevel     string `json:"cert_level" csv:"level"`
-	CertName      string `json:"cert_name" csv:"cert_name"`
-	CertDate      string `json:"cert_date" csv:"date"`
-}
+type CertData map[string]string
 
 type MerkleProof []map[string]EncodingGroup
