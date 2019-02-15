@@ -12,6 +12,7 @@ services:
       - certs:/etc/nginx/certs
       - vhost:/etc/nginx/vhost.d
       - nginx-html:/usr/share/nginx/html
+      - "./custom_proxy_settings.conf:/etc/nginx/conf.d/custom_proxy_settings.conf"
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
