@@ -28,6 +28,7 @@ func (a App) Init() {
 		a.initCLI()
 		break
 	case 2:
+		fallthrough
 	case 3:
 		a.initBrowser()
 		break
