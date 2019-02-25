@@ -1,6 +1,5 @@
 // Code generated - DO NOT EDIT.
 // This file is a generated binding and any manual changes will be lost.
-// Source https://github.com/TiiQu-Network/Cert-Registry
 
 package contracts
 
@@ -16,10 +15,10 @@ import (
 )
 
 // CertRegistryABI is the input ABI used to generate the binding from.
-const CertRegistryABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"root\",\"type\":\"bytes32\"}],\"name\":\"rootExists\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"addWhitelisted\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"removeWhitelisted\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"isWhitelisted\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"unpause\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"},{\"name\":\"root\",\"type\":\"bytes32\"}],\"name\":\"ownsRoot\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"isRevoked\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"isPauser\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceWhitelistAdmin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"currentOwner\",\"type\":\"address\"},{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"giveRootOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"paused\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renouncePauser\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"addWhitelistAdmin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"addPauser\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"pause\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"removeRootOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceRootOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"getRoots\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"revoke\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"isWhitelistAdmin\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceWhitelisted\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"root\",\"type\":\"bytes32\"}],\"name\":\"register\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"registerer\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"root\",\"type\":\"bytes32\"}],\"name\":\"CertRegistered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"revoker\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"CertRevoked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"currentOwner\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"RootOwnershipGiven\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"WhitelistedAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"WhitelistedRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"WhitelistAdminAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"WhitelistAdminRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Paused\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Unpaused\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"PauserAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"PauserRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"}]"
+const CertRegistryABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"publicKeyHash\",\"type\":\"bytes32\"}],\"name\":\"publicKeyIsRegistered\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"root\",\"type\":\"bytes32\"}],\"name\":\"rootExists\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"isSuspended\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"addWhitelisted\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"publicKeyHash\",\"type\":\"bytes32\"}],\"name\":\"registerPublicKey\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"revokeBaseCert\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"removeWhitelisted\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"isWhitelisted\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"unpause\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"isRevoked\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"isPauser\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceWhitelistAdmin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"paused\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_currentOwner\",\"type\":\"address\"},{\"name\":\"_newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renouncePauser\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"publicKeyHash\",\"type\":\"bytes32\"}],\"name\":\"publicKeyIsRevoked\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"addWhitelistAdmin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"unsuspend\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"addPauser\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"pause\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"revokeRootCert\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"publicKeyHash\",\"type\":\"bytes32\"}],\"name\":\"revokePublicKey\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"suspend\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"account\",\"type\":\"address\"}],\"name\":\"isWhitelistAdmin\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"renounceWhitelisted\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"root\",\"type\":\"bytes32\"}],\"name\":\"register\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"registerer\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"root\",\"type\":\"bytes32\"}],\"name\":\"CertRegistered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"revoker\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"CertRevoked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"by\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"CertSuspended\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"by\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"CertUnsuspended\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"currentOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"_registrant\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"_key\",\"type\":\"bytes32\"}],\"name\":\"PublicKeyRegistered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"_registrant\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"_key\",\"type\":\"bytes32\"}],\"name\":\"PublicKeyRevoked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"WhitelistedAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"WhitelistedRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"WhitelistAdminAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"WhitelistAdminRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Paused\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Unpaused\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"PauserAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"account\",\"type\":\"address\"}],\"name\":\"PauserRemoved\",\"type\":\"event\"}]"
 
 // CertRegistryBin is the compiled bytecode used for deploying new contracts.
-const CertRegistryBin = `0x608060405234801561001057600080fd5b5060008054600160a060020a0319163317808255604051600160a060020a039190911691907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908290a361006c3364010000000061008d810204565b6002805460ff19169055610088336401000000006100dc810204565b6101b9565b6100a5600182640100000000610ce861012b82021704565b604051600160a060020a038216907f6719d08c1888103bea251a4ed56406bd0c3e69723c8a1686e017e7bbe159b6f890600090a250565b6100f4600382640100000000610ce861012b82021704565b604051600160a060020a038216907f22380c05984257a1cb900161c713dd71d39e74820f1aea43bd3f1bdd2096129990600090a250565b600160a060020a038116151561014057600080fd5b6101538282640100000000610182810204565b1561015d57600080fd5b600160a060020a0316600090815260209190915260409020805460ff19166001179055565b6000600160a060020a038216151561019957600080fd5b50600160a060020a03166000908152602091909152604090205460ff1690565b610e2d80620001c96000396000f3fe608060405234801561001057600080fd5b50600436106101ab576000357c0100000000000000000000000000000000000000000000000000000000900480637362d9c8116100fb5780639aa6b585116100b4578063bb5f747b1161008e578063bb5f747b1461045b578063d6cd947314610481578063e1fa8e8414610489578063f2fde38b146104a6576101ab565b80639aa6b585146103c0578063a82e3482146103c8578063b75c7dc61461043e576101ab565b80637362d9c81461031a57806382dc1ec4146103405780638456cb59146103665780638da5cb5b1461036e5780638f32d59b1461039257806394c2dac81461039a576101ab565b80634294857f1161016857806355457ab61161014257806355457ab6146102d45780635c975abb146103025780636ef8d66d1461030a578063715018a614610312576101ab565b80634294857f1461028957806346fbf68e146102a65780634c5a628c146102cc576101ab565b80630524b18f146101b057806310154bad146101e1578063291d9549146102095780633af32abf1461022f5780633f4ba83a1461025557806341d88e0c1461025d575b600080fd5b6101cd600480360360208110156101c657600080fd5b50356104cc565b604080519115158252519081900360200190f35b610207600480360360208110156101f757600080fd5b5035600160a060020a03166104e1565b005b6102076004803603602081101561021f57600080fd5b5035600160a060020a0316610501565b6101cd6004803603602081101561024557600080fd5b5035600160a060020a031661051e565b610207610537565b6101cd6004803603604081101561027357600080fd5b50600160a060020a03813516906020013561059b565b6101cd6004803603602081101561029f57600080fd5b50356105f3565b6101cd600480360360208110156102bc57600080fd5b5035600160a060020a0316610608565b61020761061b565b610207600480360360408110156102ea57600080fd5b50600160a060020a0381358116916020013516610626565b6101cd6106e8565b6102076106f2565b6102076106fb565b6102076004803603602081101561033057600080fd5b5035600160a060020a0316610765565b6102076004803603602081101561035657600080fd5b5035600160a060020a0316610782565b61020761079f565b610376610805565b60408051600160a060020a039092168252519081900360200190f35b6101cd610814565b610207600480360360208110156103b057600080fd5b5035600160a060020a0316610825565b610207610869565b6103ee600480360360208110156103de57600080fd5b5035600160a060020a0316610891565b60408051602080825283518183015283519192839290830191858101910280838360005b8381101561042a578181015183820152602001610412565b505050509050019250505060405180910390f35b6102076004803603602081101561045457600080fd5b50356108fd565b6101cd6004803603602081101561047157600080fd5b5035600160a060020a0316610997565b6102076109aa565b6102076004803603602081101561049f57600080fd5b50356109b3565b610207600480360360208110156104bc57600080fd5b5035600160a060020a0316610a68565b60009081526006602052604090205460ff1690565b6104ea33610997565b15156104f557600080fd5b6104fe81610a84565b50565b61050a33610997565b151561051557600080fd5b6104fe81610acc565b600061053160048363ffffffff610b1416565b92915050565b61054033610608565b151561054b57600080fd5b60025460ff16151561055c57600080fd5b6002805460ff191690556040805133815290517f5db9ee0a495bf2e6ff9c91a7834c1ba4fdd244a5e8aa4e537bd38aeae4b073aa9181900360200190a1565b600060606105a884610891565b905060005b81518110156105e8578382828151811015156105c557fe5b9060200190602002015114156105e057600192505050610531565b6001016105ad565b506000949350505050565b60009081526005602052604090205460ff1690565b600061053160018363ffffffff610b1416565b61062433610b4b565b565b6000610630610814565b15610639575060015b6106423361051e565b1561064b575060015b80151561065757600080fd5b60025460ff161561066757600080fd5b61067083610891565b600160a060020a0383166000908152600760209081526040909120825161069d9391929190910190610d82565b5060408051600160a060020a0380861682528416602082015281517f2854d8d9ea9d5530703d62c8b3e8bb2459a9136e7607511da717b2a13dcf70b8929181900390910190a1505050565b60025460ff165b90565b61062433610b93565b610703610814565b151561070e57600080fd5b60008054604051600160a060020a03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a36000805473ffffffffffffffffffffffffffffffffffffffff19169055565b61076e33610997565b151561077957600080fd5b6104fe81610bdb565b61078b33610608565b151561079657600080fd5b6104fe81610c23565b6107a833610608565b15156107b357600080fd5b60025460ff16156107c357600080fd5b6002805460ff191660011790556040805133815290517f62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a2589181900360200190a1565b600054600160a060020a031690565b600054600160a060020a0316331490565b61082d610814565b151561083857600080fd5b60025460ff161561084857600080fd5b600160a060020a03811660009081526007602052604081206104fe91610dcd565b60025460ff161561087957600080fd5b33600090815260076020526040812061062491610dcd565b600160a060020a0381166000908152600760209081526040918290208054835181840281018401909452808452606093928301828280156108f157602002820191906000526020600020905b8154815260200190600101908083116108dd575b50505050509050919050565b6000610907610814565b15610910575060015b6109193361051e565b15610922575060015b80151561092e57600080fd5b60025460ff161561093e57600080fd5b600082815260056020908152604091829020805460ff19166001179055815133815290810184905281517f95805cdad68eccc1a7e73b9e1dd10d0561be298bdab9e5609e309df2e3c3d7b7929181900390910190a15050565b600061053160038363ffffffff610b1416565b61062433610acc565b6109bc3361051e565b15156109c757600080fd5b60025460ff16156109d757600080fd5b60008181526006602052604090205460ff16156109f357600080fd5b6000818152600660209081526040808320805460ff1916600190811790915533808552600784528285208054928301815585529383902001849055805192835290820183905280517f54553ef3b4e1d60c041c89079b49d51c62e39543028b4861c9e25529acaa70e89281900390910190a150565b610a70610814565b1515610a7b57600080fd5b6104fe81610c6b565b610a9560048263ffffffff610ce816565b604051600160a060020a038216907fee1504a83b6d4a361f4c1dc78ab59bfa30d6a3b6612c403e86bb01ef2984295f90600090a250565b610add60048263ffffffff610d3616565b604051600160a060020a038216907f270d9b30cf5b0793bbfd54c9d5b94aeb49462b8148399000265144a8722da6b690600090a250565b6000600160a060020a0382161515610b2b57600080fd5b50600160a060020a03166000908152602091909152604090205460ff1690565b610b5c60038263ffffffff610d3616565b604051600160a060020a038216907f0a8eb35e5ca14b3d6f28e4abf2f128dbab231a58b56e89beb5d636115001e16590600090a250565b610ba460018263ffffffff610d3616565b604051600160a060020a038216907fcd265ebaf09df2871cc7bd4133404a235ba12eff2041bb89d9c714a2621c7c7e90600090a250565b610bec60038263ffffffff610ce816565b604051600160a060020a038216907f22380c05984257a1cb900161c713dd71d39e74820f1aea43bd3f1bdd2096129990600090a250565b610c3460018263ffffffff610ce816565b604051600160a060020a038216907f6719d08c1888103bea251a4ed56406bd0c3e69723c8a1686e017e7bbe159b6f890600090a250565b600160a060020a0381161515610c8057600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b600160a060020a0381161515610cfd57600080fd5b610d078282610b14565b15610d1157600080fd5b600160a060020a0316600090815260209190915260409020805460ff19166001179055565b600160a060020a0381161515610d4b57600080fd5b610d558282610b14565b1515610d6057600080fd5b600160a060020a0316600090815260209190915260409020805460ff19169055565b828054828255906000526020600020908101928215610dbd579160200282015b82811115610dbd578251825591602001919060010190610da2565b50610dc9929150610de7565b5090565b50805460008255906000526020600020908101906104fe91905b6106ef91905b80821115610dc95760008155600101610ded56fea165627a7a7230582023651e3fdc8d4d6d0adefe0db4933c54b4a8d67f7e84d43249fa15eb8b733bba0029`
+const CertRegistryBin = `0x60806040523480156200001157600080fd5b5060008054600160a060020a0319163317808255604051600160a060020a039190911691907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908290a36200006f3364010000000062000093810204565b6002805460ff191690556200008d33640100000000620000e5810204565b620001ca565b620000ae6001826401000000006200155a6200013782021704565b604051600160a060020a038216907f6719d08c1888103bea251a4ed56406bd0c3e69723c8a1686e017e7bbe159b6f890600090a250565b620001006003826401000000006200155a6200013782021704565b604051600160a060020a038216907f22380c05984257a1cb900161c713dd71d39e74820f1aea43bd3f1bdd2096129990600090a250565b600160a060020a03811615156200014d57600080fd5b62000162828264010000000062000192810204565b156200016d57600080fd5b600160a060020a0316600090815260209190915260409020805460ff19166001179055565b6000600160a060020a0382161515620001aa57600080fd5b50600160a060020a03166000908152602091909152604090205460ff1690565b6116ee80620001da6000396000f3fe608060405234801561001057600080fd5b50600436106101f6576000357c010000000000000000000000000000000000000000000000000000000090048063715018a6116101215780638f32d59b116100bf578063bb5f747b1161008e578063bb5f747b146104be578063d6cd9473146104e4578063e1fa8e84146104ec578063f2fde38b14610509576101f6565b80638f32d59b1461045f57806393b08c3214610467578063a8c5916914610484578063b1c4235d146104a1576101f6565b80637c0c6c02116100fb5780637c0c6c02146103f057806382dc1ec41461040d5780638456cb59146104335780638da5cb5b1461043b576101f6565b8063715018a6146103a5578063731622ee146103ad5780637362d9c8146103ca576101f6565b80633af32abf116101995780634c5a628c116101685780634c5a628c1461035f5780635c975abb146103675780636d4354211461036f5780636ef8d66d1461039d576101f6565b80633af32abf146102ee5780633f4ba83a146103145780634294857f1461031c57806346fbf68e14610339576101f6565b806310154bad116101d557806310154bad146102665780631a79004b1461028e57806320d5b5e1146102ab578063291d9549146102c8576101f6565b80620bc61f146101fb5780630524b18f1461022c5780630b67cd8114610249575b600080fd5b6102186004803603602081101561021157600080fd5b503561052f565b604080519115158252519081900360200190f35b6102186004803603602081101561024257600080fd5b503561054c565b6102186004803603602081101561025f57600080fd5b5035610566565b61028c6004803603602081101561027c57600080fd5b5035600160a060020a0316610580565b005b61028c600480360360208110156102a457600080fd5b50356105a0565b61028c600480360360208110156102c157600080fd5b5035610664565b61028c600480360360208110156102de57600080fd5b5035600160a060020a0316610749565b6102186004803603602081101561030457600080fd5b5035600160a060020a0316610766565b61028c61077f565b6102186004803603602081101561033257600080fd5b50356107e3565b6102186004803603602081101561034f57600080fd5b5035600160a060020a0316610868565b61028c61087b565b610218610886565b61028c6004803603604081101561038557600080fd5b50600160a060020a0381358116916020013516610890565b61028c610add565b61028c610ae6565b610218600480360360208110156103c357600080fd5b5035610b50565b61028c600480360360208110156103e057600080fd5b5035600160a060020a0316610b65565b61028c6004803603602081101561040657600080fd5b5035610b82565b61028c6004803603602081101561042357600080fd5b5035600160a060020a0316610c7b565b61028c610c98565b610443610cfe565b60408051600160a060020a039092168252519081900360200190f35b610218610d0d565b61028c6004803603602081101561047d57600080fd5b5035610d1e565b61028c6004803603602081101561049a57600080fd5b5035610df6565b61028c600480360360208110156104b757600080fd5b5035610ece565b610218600480360360208110156104d457600080fd5b5035600160a060020a0316610fb8565b61028c610fcb565b61028c6004803603602081101561050257600080fd5b5035610fd4565b61028c6004803603602081101561051f57600080fd5b5035600160a060020a031661109e565b600081815260076020526040902054610100900460ff165b919050565b600090815260056020526040902054610100900460ff1690565b600090815260066020526040902054610100900460ff1690565b61058933610fb8565b151561059457600080fd5b61059d816110ba565b50565b60006105aa610d0d565b156105b3575060015b6105bc33610766565b156105c5575060015b8015156105d157600080fd5b60025460ff16156105e157600080fd5b6040805180820182526000808252600160208084019182528683526007905292902090518154925115156101000261ff001991151560ff19909416939093171691909117905561063333836003611102565b604051829033907f7a4bc391d21f6e1266001f2c5792e6d1eaf34a68d5540916835e975c17e27e9090600090a35050565b600061066e610d0d565b15610677575060015b61068033610766565b15610689575060015b80151561069557600080fd5b60025460ff16156106a557600080fd5b6106ad6115f4565b6106b6836111db565b6001815260008481526006602090815260409182902083518154928501519385015160ff199093169015151761ff001916610100931515939093029290921762ff000019166201000091151591909102179055905061071733846002611102565b604051839033907f95805cdad68eccc1a7e73b9e1dd10d0561be298bdab9e5609e309df2e3c3d7b790600090a3505050565b61075233610fb8565b151561075d57600080fd5b61059d81611270565b600061077960048363ffffffff6112b816565b92915050565b61078833610868565b151561079357600080fd5b60025460ff1615156107a457600080fd5b6002805460ff191690556040805133815290517f5db9ee0a495bf2e6ff9c91a7834c1ba4fdd244a5e8aa4e537bd38aeae4b073aa9181900360200190a1565b600081815260056020526040812054610100900460ff168015610814575060008281526005602052604090205460ff165b1561082157506001610547565b60008281526006602052604090205462010000900460ff168015610853575060008281526006602052604090205460ff165b1561086057506001610547565b506000919050565b600061077960018363ffffffff6112b816565b610884336112ef565b565b60025460ff165b90565b600061089a610d0d565b156108a3575060015b6108ac33610766565b156108b5575060015b8015156108c157600080fd5b60025460ff16156108d157600080fd5b600160a060020a03821660009081526008602052604090206002015460ff16156108fa57600080fd5b600160a060020a03831660009081526008602052604090206002015460ff16151561092457600080fd5b61092c611614565b61093583611337565b600160a060020a0384166000908152600860209081526040909120825180519394508493919261096d9260018501929091019061162c565b50602091909101516002909101805460ff191691151591909117905560005b600160a060020a038516600090815260086020526040902060010154811015610a6b57600160a060020a03851660009081526008602052604081206001018054839081106109d657fe5b906000526020600020015490506109eb611677565b50600160a060020a038681166000908152600860208181526040808420868552825280842081518083018352905460ff80821683526101009182900481161515838601908152978d1687529484528286209786529690925290922091518254935160ff1990941691161761ff00191691151590920217905560010161098c565b50600160a060020a038416600090815260086020526040812090610a92600183018261168e565b50600201805460ff19169055604051600160a060020a0380851691908616907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e090600090a350505050565b61088433611405565b610aee610d0d565b1515610af957600080fd5b60008054604051600160a060020a03909116907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0908390a36000805473ffffffffffffffffffffffffffffffffffffffff19169055565b60009081526007602052604090205460ff1690565b610b6e33610fb8565b1515610b7957600080fd5b61059d8161144d565b6000610b8c610d0d565b15610b95575060015b610b9e33610766565b15610ba7575060015b801515610bb357600080fd5b60025460ff1615610bc357600080fd5b336000908152600860209081526040808320858452909152902054610100900460ff161515610bf157600080fd5b60008281526006602052604090205462010000900460ff161515610c1457600080fd5b600082815260066020526040902054610100900460ff161515610c3657600080fd5b600082815260066020526040808220805461ff001916905551839133917f4ad880bd6cf5334828ab1a67917e546b48e428d7c741db97e6a5ccc08f6543d39190a35050565b610c8433610868565b1515610c8f57600080fd5b61059d81611495565b610ca133610868565b1515610cac57600080fd5b60025460ff1615610cbc57600080fd5b6002805460ff191660011790556040805133815290517f62e78cea01bee320cd4e420270b5ea74000d11b0c9f74754ebdbfc544b05a2589181900360200190a1565b600054600160a060020a031690565b600054600160a060020a0316331490565b6000610d28610d0d565b15610d31575060015b610d3a33610766565b15610d43575060015b801515610d4f57600080fd5b60025460ff1615610d5f57600080fd5b336000908152600860209081526040808320858452909152902054610100900460ff161515610d8d57600080fd5b600082815260056020526040902054610100900460ff161515610daf57600080fd5b600082815260056020526040808220805460ff1916600117905551839133917f95805cdad68eccc1a7e73b9e1dd10d0561be298bdab9e5609e309df2e3c3d7b79190a35050565b6000610e00610d0d565b15610e09575060015b610e1233610766565b15610e1b575060015b801515610e2757600080fd5b60025460ff1615610e3757600080fd5b336000908152600860209081526040808320858452909152902054610100900460ff161515610e6557600080fd5b600082815260076020526040902054610100900460ff161515610e8757600080fd5b600082815260076020526040808220805460ff1916600117905551839133917f01c3841b6054f5eaf9cb35be277318f5aaf3fc8edafcfa6020dd353c2c7177c79190a35050565b6000610ed8610d0d565b15610ee1575060015b610eea33610766565b15610ef3575060015b801515610eff57600080fd5b60025460ff1615610f0f57600080fd5b610f176115f4565b610f20836111db565b60016020828101918252600086815260069091526040908190208351815493519285015160ff199094169015151761ff001916610100921515929092029190911762ff0000191662010000921515929092029190911790559050610f8633846002611102565b604051839033907fec2bd867db75fad82804f7658ccf265869f637920627f1bbaa4b1f4e328b620990600090a3505050565b600061077960038363ffffffff6112b816565b61088433611270565b610fdd33610766565b1515610fe857600080fd5b60025460ff1615610ff857600080fd5b600081815260056020526040902054610100900460ff161561101957600080fd5b60408051808201825260008082526001602080840182815286845260059091529390912091518254935115156101000261ff001991151560ff19909516949094171692909217905561106e9033908390611102565b604051819033907f54553ef3b4e1d60c041c89079b49d51c62e39543028b4861c9e25529acaa70e890600090a350565b6110a6610d0d565b15156110b157600080fd5b61059d816114dd565b6110cb60048263ffffffff61155a16565b604051600160a060020a038216907fee1504a83b6d4a361f4c1dc78ab59bfa30d6a3b6612c403e86bb01ef2984295f90600090a250565b61110a611614565b61111384611337565b600160a060020a0385166000908152600860209081526040909120825180519394508493919261114b9260018501929091019061162c565b506020918201516002909101805491151560ff1992831617905560408051808201825260ff95861681526001818501818152600160a060020a03909916600090815260088087528482208a8352808852948220935184549b5115156101000261ff001991909a169b9096169a909a1794909416969096179055958252948301805493840181558552909320015550565b6111e36115f4565b60008281526006602052604090205462010000900460ff161561124d57506000818152600660209081526040918290208251606081018452905460ff8082161515835261010082048116151593830193909352620100009004909116151591810191909152610547565b506040805160608101825260008082526020820152600191810191909152610547565b61128160048263ffffffff6115a816565b604051600160a060020a038216907f270d9b30cf5b0793bbfd54c9d5b94aeb49462b8148399000265144a8722da6b690600090a250565b6000600160a060020a03821615156112cf57600080fd5b50600160a060020a03166000908152602091909152604090205460ff1690565b61130060038263ffffffff6115a816565b604051600160a060020a038216907f0a8eb35e5ca14b3d6f28e4abf2f128dbab231a58b56e89beb5d636115001e16590600090a250565b61133f611614565b600160a060020a03821660009081526008602052604090206002015460ff16156113ef57600160a060020a03821660009081526008602090815260409182902082516001820180546060948102830185018652948201858152919492938593908401828280156113ce57602002820191906000526020600020905b8154815260200190600101908083116113ba575b50505091835250506002919091015460ff1615156020909101529050610547565b6113f7611614565b600160208201529050610547565b61141660018263ffffffff6115a816565b604051600160a060020a038216907fcd265ebaf09df2871cc7bd4133404a235ba12eff2041bb89d9c714a2621c7c7e90600090a250565b61145e60038263ffffffff61155a16565b604051600160a060020a038216907f22380c05984257a1cb900161c713dd71d39e74820f1aea43bd3f1bdd2096129990600090a250565b6114a660018263ffffffff61155a16565b604051600160a060020a038216907f6719d08c1888103bea251a4ed56406bd0c3e69723c8a1686e017e7bbe159b6f890600090a250565b600160a060020a03811615156114f257600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0392909216919091179055565b600160a060020a038116151561156f57600080fd5b61157982826112b8565b1561158357600080fd5b600160a060020a0316600090815260209190915260409020805460ff19166001179055565b600160a060020a03811615156115bd57600080fd5b6115c782826112b8565b15156115d257600080fd5b600160a060020a0316600090815260209190915260409020805460ff19169055565b604080516060810182526000808252602082018190529181019190915290565b60408051808201909152606081526000602082015290565b828054828255906000526020600020908101928215611667579160200282015b8281111561166757825182559160200191906001019061164c565b506116739291506116a8565b5090565b604080518082019091526000808252602082015290565b508054600082559060005260206000209081019061059d91905b61088d91905b8082111561167357600081556001016116ae56fea165627a7a7230582040d7a5dbc001a6d3064e01044a6eab39ebb6016d7a6700be3323118ab436135f0029`
 
 // DeployCertRegistry deploys a new Ethereum contract, binding an instance of CertRegistry to it.
 func DeployCertRegistry(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *CertRegistry, error) {
@@ -176,32 +175,6 @@ func (_CertRegistry *CertRegistryTransactorRaw) Transact(opts *bind.TransactOpts
 	return _CertRegistry.Contract.contract.Transact(opts, method, params...)
 }
 
-// GetRoots is a free data retrieval call binding the contract method 0xa82e3482.
-//
-// Solidity: function getRoots(owner address) constant returns(bytes32[])
-func (_CertRegistry *CertRegistryCaller) GetRoots(opts *bind.CallOpts, owner common.Address) ([][32]byte, error) {
-	var (
-		ret0 = new([][32]byte)
-	)
-	out := ret0
-	err := _CertRegistry.contract.Call(opts, out, "getRoots", owner)
-	return *ret0, err
-}
-
-// GetRoots is a free data retrieval call binding the contract method 0xa82e3482.
-//
-// Solidity: function getRoots(owner address) constant returns(bytes32[])
-func (_CertRegistry *CertRegistrySession) GetRoots(owner common.Address) ([][32]byte, error) {
-	return _CertRegistry.Contract.GetRoots(&_CertRegistry.CallOpts, owner)
-}
-
-// GetRoots is a free data retrieval call binding the contract method 0xa82e3482.
-//
-// Solidity: function getRoots(owner address) constant returns(bytes32[])
-func (_CertRegistry *CertRegistryCallerSession) GetRoots(owner common.Address) ([][32]byte, error) {
-	return _CertRegistry.Contract.GetRoots(&_CertRegistry.CallOpts, owner)
-}
-
 // IsOwner is a free data retrieval call binding the contract method 0x8f32d59b.
 //
 // Solidity: function isOwner() constant returns(bool)
@@ -278,6 +251,32 @@ func (_CertRegistry *CertRegistrySession) IsRevoked(hash [32]byte) (bool, error)
 // Solidity: function isRevoked(hash bytes32) constant returns(bool)
 func (_CertRegistry *CertRegistryCallerSession) IsRevoked(hash [32]byte) (bool, error) {
 	return _CertRegistry.Contract.IsRevoked(&_CertRegistry.CallOpts, hash)
+}
+
+// IsSuspended is a free data retrieval call binding the contract method 0x0b67cd81.
+//
+// Solidity: function isSuspended(hash bytes32) constant returns(bool)
+func (_CertRegistry *CertRegistryCaller) IsSuspended(opts *bind.CallOpts, hash [32]byte) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _CertRegistry.contract.Call(opts, out, "isSuspended", hash)
+	return *ret0, err
+}
+
+// IsSuspended is a free data retrieval call binding the contract method 0x0b67cd81.
+//
+// Solidity: function isSuspended(hash bytes32) constant returns(bool)
+func (_CertRegistry *CertRegistrySession) IsSuspended(hash [32]byte) (bool, error) {
+	return _CertRegistry.Contract.IsSuspended(&_CertRegistry.CallOpts, hash)
+}
+
+// IsSuspended is a free data retrieval call binding the contract method 0x0b67cd81.
+//
+// Solidity: function isSuspended(hash bytes32) constant returns(bool)
+func (_CertRegistry *CertRegistryCallerSession) IsSuspended(hash [32]byte) (bool, error) {
+	return _CertRegistry.Contract.IsSuspended(&_CertRegistry.CallOpts, hash)
 }
 
 // IsWhitelistAdmin is a free data retrieval call binding the contract method 0xbb5f747b.
@@ -358,32 +357,6 @@ func (_CertRegistry *CertRegistryCallerSession) Owner() (common.Address, error) 
 	return _CertRegistry.Contract.Owner(&_CertRegistry.CallOpts)
 }
 
-// OwnsRoot is a free data retrieval call binding the contract method 0x41d88e0c.
-//
-// Solidity: function ownsRoot(owner address, root bytes32) constant returns(bool)
-func (_CertRegistry *CertRegistryCaller) OwnsRoot(opts *bind.CallOpts, owner common.Address, root [32]byte) (bool, error) {
-	var (
-		ret0 = new(bool)
-	)
-	out := ret0
-	err := _CertRegistry.contract.Call(opts, out, "ownsRoot", owner, root)
-	return *ret0, err
-}
-
-// OwnsRoot is a free data retrieval call binding the contract method 0x41d88e0c.
-//
-// Solidity: function ownsRoot(owner address, root bytes32) constant returns(bool)
-func (_CertRegistry *CertRegistrySession) OwnsRoot(owner common.Address, root [32]byte) (bool, error) {
-	return _CertRegistry.Contract.OwnsRoot(&_CertRegistry.CallOpts, owner, root)
-}
-
-// OwnsRoot is a free data retrieval call binding the contract method 0x41d88e0c.
-//
-// Solidity: function ownsRoot(owner address, root bytes32) constant returns(bool)
-func (_CertRegistry *CertRegistryCallerSession) OwnsRoot(owner common.Address, root [32]byte) (bool, error) {
-	return _CertRegistry.Contract.OwnsRoot(&_CertRegistry.CallOpts, owner, root)
-}
-
 // Paused is a free data retrieval call binding the contract method 0x5c975abb.
 //
 // Solidity: function paused() constant returns(bool)
@@ -408,6 +381,58 @@ func (_CertRegistry *CertRegistrySession) Paused() (bool, error) {
 // Solidity: function paused() constant returns(bool)
 func (_CertRegistry *CertRegistryCallerSession) Paused() (bool, error) {
 	return _CertRegistry.Contract.Paused(&_CertRegistry.CallOpts)
+}
+
+// PublicKeyIsRegistered is a free data retrieval call binding the contract method 0x000bc61f.
+//
+// Solidity: function publicKeyIsRegistered(publicKeyHash bytes32) constant returns(bool)
+func (_CertRegistry *CertRegistryCaller) PublicKeyIsRegistered(opts *bind.CallOpts, publicKeyHash [32]byte) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _CertRegistry.contract.Call(opts, out, "publicKeyIsRegistered", publicKeyHash)
+	return *ret0, err
+}
+
+// PublicKeyIsRegistered is a free data retrieval call binding the contract method 0x000bc61f.
+//
+// Solidity: function publicKeyIsRegistered(publicKeyHash bytes32) constant returns(bool)
+func (_CertRegistry *CertRegistrySession) PublicKeyIsRegistered(publicKeyHash [32]byte) (bool, error) {
+	return _CertRegistry.Contract.PublicKeyIsRegistered(&_CertRegistry.CallOpts, publicKeyHash)
+}
+
+// PublicKeyIsRegistered is a free data retrieval call binding the contract method 0x000bc61f.
+//
+// Solidity: function publicKeyIsRegistered(publicKeyHash bytes32) constant returns(bool)
+func (_CertRegistry *CertRegistryCallerSession) PublicKeyIsRegistered(publicKeyHash [32]byte) (bool, error) {
+	return _CertRegistry.Contract.PublicKeyIsRegistered(&_CertRegistry.CallOpts, publicKeyHash)
+}
+
+// PublicKeyIsRevoked is a free data retrieval call binding the contract method 0x731622ee.
+//
+// Solidity: function publicKeyIsRevoked(publicKeyHash bytes32) constant returns(bool)
+func (_CertRegistry *CertRegistryCaller) PublicKeyIsRevoked(opts *bind.CallOpts, publicKeyHash [32]byte) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _CertRegistry.contract.Call(opts, out, "publicKeyIsRevoked", publicKeyHash)
+	return *ret0, err
+}
+
+// PublicKeyIsRevoked is a free data retrieval call binding the contract method 0x731622ee.
+//
+// Solidity: function publicKeyIsRevoked(publicKeyHash bytes32) constant returns(bool)
+func (_CertRegistry *CertRegistrySession) PublicKeyIsRevoked(publicKeyHash [32]byte) (bool, error) {
+	return _CertRegistry.Contract.PublicKeyIsRevoked(&_CertRegistry.CallOpts, publicKeyHash)
+}
+
+// PublicKeyIsRevoked is a free data retrieval call binding the contract method 0x731622ee.
+//
+// Solidity: function publicKeyIsRevoked(publicKeyHash bytes32) constant returns(bool)
+func (_CertRegistry *CertRegistryCallerSession) PublicKeyIsRevoked(publicKeyHash [32]byte) (bool, error) {
+	return _CertRegistry.Contract.PublicKeyIsRevoked(&_CertRegistry.CallOpts, publicKeyHash)
 }
 
 // RootExists is a free data retrieval call binding the contract method 0x0524b18f.
@@ -499,27 +524,6 @@ func (_CertRegistry *CertRegistryTransactorSession) AddWhitelisted(account commo
 	return _CertRegistry.Contract.AddWhitelisted(&_CertRegistry.TransactOpts, account)
 }
 
-// GiveRootOwnership is a paid mutator transaction binding the contract method 0x55457ab6.
-//
-// Solidity: function giveRootOwnership(currentOwner address, newOwner address) returns()
-func (_CertRegistry *CertRegistryTransactor) GiveRootOwnership(opts *bind.TransactOpts, currentOwner common.Address, newOwner common.Address) (*types.Transaction, error) {
-	return _CertRegistry.contract.Transact(opts, "giveRootOwnership", currentOwner, newOwner)
-}
-
-// GiveRootOwnership is a paid mutator transaction binding the contract method 0x55457ab6.
-//
-// Solidity: function giveRootOwnership(currentOwner address, newOwner address) returns()
-func (_CertRegistry *CertRegistrySession) GiveRootOwnership(currentOwner common.Address, newOwner common.Address) (*types.Transaction, error) {
-	return _CertRegistry.Contract.GiveRootOwnership(&_CertRegistry.TransactOpts, currentOwner, newOwner)
-}
-
-// GiveRootOwnership is a paid mutator transaction binding the contract method 0x55457ab6.
-//
-// Solidity: function giveRootOwnership(currentOwner address, newOwner address) returns()
-func (_CertRegistry *CertRegistryTransactorSession) GiveRootOwnership(currentOwner common.Address, newOwner common.Address) (*types.Transaction, error) {
-	return _CertRegistry.Contract.GiveRootOwnership(&_CertRegistry.TransactOpts, currentOwner, newOwner)
-}
-
 // Pause is a paid mutator transaction binding the contract method 0x8456cb59.
 //
 // Solidity: function pause() returns()
@@ -562,25 +566,25 @@ func (_CertRegistry *CertRegistryTransactorSession) Register(root [32]byte) (*ty
 	return _CertRegistry.Contract.Register(&_CertRegistry.TransactOpts, root)
 }
 
-// RemoveRootOwnership is a paid mutator transaction binding the contract method 0x94c2dac8.
+// RegisterPublicKey is a paid mutator transaction binding the contract method 0x1a79004b.
 //
-// Solidity: function removeRootOwnership(owner address) returns()
-func (_CertRegistry *CertRegistryTransactor) RemoveRootOwnership(opts *bind.TransactOpts, owner common.Address) (*types.Transaction, error) {
-	return _CertRegistry.contract.Transact(opts, "removeRootOwnership", owner)
+// Solidity: function registerPublicKey(publicKeyHash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactor) RegisterPublicKey(opts *bind.TransactOpts, publicKeyHash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.contract.Transact(opts, "registerPublicKey", publicKeyHash)
 }
 
-// RemoveRootOwnership is a paid mutator transaction binding the contract method 0x94c2dac8.
+// RegisterPublicKey is a paid mutator transaction binding the contract method 0x1a79004b.
 //
-// Solidity: function removeRootOwnership(owner address) returns()
-func (_CertRegistry *CertRegistrySession) RemoveRootOwnership(owner common.Address) (*types.Transaction, error) {
-	return _CertRegistry.Contract.RemoveRootOwnership(&_CertRegistry.TransactOpts, owner)
+// Solidity: function registerPublicKey(publicKeyHash bytes32) returns()
+func (_CertRegistry *CertRegistrySession) RegisterPublicKey(publicKeyHash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.RegisterPublicKey(&_CertRegistry.TransactOpts, publicKeyHash)
 }
 
-// RemoveRootOwnership is a paid mutator transaction binding the contract method 0x94c2dac8.
+// RegisterPublicKey is a paid mutator transaction binding the contract method 0x1a79004b.
 //
-// Solidity: function removeRootOwnership(owner address) returns()
-func (_CertRegistry *CertRegistryTransactorSession) RemoveRootOwnership(owner common.Address) (*types.Transaction, error) {
-	return _CertRegistry.Contract.RemoveRootOwnership(&_CertRegistry.TransactOpts, owner)
+// Solidity: function registerPublicKey(publicKeyHash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactorSession) RegisterPublicKey(publicKeyHash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.RegisterPublicKey(&_CertRegistry.TransactOpts, publicKeyHash)
 }
 
 // RemoveWhitelisted is a paid mutator transaction binding the contract method 0x291d9549.
@@ -646,27 +650,6 @@ func (_CertRegistry *CertRegistryTransactorSession) RenouncePauser() (*types.Tra
 	return _CertRegistry.Contract.RenouncePauser(&_CertRegistry.TransactOpts)
 }
 
-// RenounceRootOwnership is a paid mutator transaction binding the contract method 0x9aa6b585.
-//
-// Solidity: function renounceRootOwnership() returns()
-func (_CertRegistry *CertRegistryTransactor) RenounceRootOwnership(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _CertRegistry.contract.Transact(opts, "renounceRootOwnership")
-}
-
-// RenounceRootOwnership is a paid mutator transaction binding the contract method 0x9aa6b585.
-//
-// Solidity: function renounceRootOwnership() returns()
-func (_CertRegistry *CertRegistrySession) RenounceRootOwnership() (*types.Transaction, error) {
-	return _CertRegistry.Contract.RenounceRootOwnership(&_CertRegistry.TransactOpts)
-}
-
-// RenounceRootOwnership is a paid mutator transaction binding the contract method 0x9aa6b585.
-//
-// Solidity: function renounceRootOwnership() returns()
-func (_CertRegistry *CertRegistryTransactorSession) RenounceRootOwnership() (*types.Transaction, error) {
-	return _CertRegistry.Contract.RenounceRootOwnership(&_CertRegistry.TransactOpts)
-}
-
 // RenounceWhitelistAdmin is a paid mutator transaction binding the contract method 0x4c5a628c.
 //
 // Solidity: function renounceWhitelistAdmin() returns()
@@ -709,25 +692,88 @@ func (_CertRegistry *CertRegistryTransactorSession) RenounceWhitelisted() (*type
 	return _CertRegistry.Contract.RenounceWhitelisted(&_CertRegistry.TransactOpts)
 }
 
-// Revoke is a paid mutator transaction binding the contract method 0xb75c7dc6.
+// RevokeBaseCert is a paid mutator transaction binding the contract method 0x20d5b5e1.
 //
-// Solidity: function revoke(hash bytes32) returns()
-func (_CertRegistry *CertRegistryTransactor) Revoke(opts *bind.TransactOpts, hash [32]byte) (*types.Transaction, error) {
-	return _CertRegistry.contract.Transact(opts, "revoke", hash)
+// Solidity: function revokeBaseCert(hash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactor) RevokeBaseCert(opts *bind.TransactOpts, hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.contract.Transact(opts, "revokeBaseCert", hash)
 }
 
-// Revoke is a paid mutator transaction binding the contract method 0xb75c7dc6.
+// RevokeBaseCert is a paid mutator transaction binding the contract method 0x20d5b5e1.
 //
-// Solidity: function revoke(hash bytes32) returns()
-func (_CertRegistry *CertRegistrySession) Revoke(hash [32]byte) (*types.Transaction, error) {
-	return _CertRegistry.Contract.Revoke(&_CertRegistry.TransactOpts, hash)
+// Solidity: function revokeBaseCert(hash bytes32) returns()
+func (_CertRegistry *CertRegistrySession) RevokeBaseCert(hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.RevokeBaseCert(&_CertRegistry.TransactOpts, hash)
 }
 
-// Revoke is a paid mutator transaction binding the contract method 0xb75c7dc6.
+// RevokeBaseCert is a paid mutator transaction binding the contract method 0x20d5b5e1.
 //
-// Solidity: function revoke(hash bytes32) returns()
-func (_CertRegistry *CertRegistryTransactorSession) Revoke(hash [32]byte) (*types.Transaction, error) {
-	return _CertRegistry.Contract.Revoke(&_CertRegistry.TransactOpts, hash)
+// Solidity: function revokeBaseCert(hash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactorSession) RevokeBaseCert(hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.RevokeBaseCert(&_CertRegistry.TransactOpts, hash)
+}
+
+// RevokePublicKey is a paid mutator transaction binding the contract method 0xa8c59169.
+//
+// Solidity: function revokePublicKey(publicKeyHash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactor) RevokePublicKey(opts *bind.TransactOpts, publicKeyHash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.contract.Transact(opts, "revokePublicKey", publicKeyHash)
+}
+
+// RevokePublicKey is a paid mutator transaction binding the contract method 0xa8c59169.
+//
+// Solidity: function revokePublicKey(publicKeyHash bytes32) returns()
+func (_CertRegistry *CertRegistrySession) RevokePublicKey(publicKeyHash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.RevokePublicKey(&_CertRegistry.TransactOpts, publicKeyHash)
+}
+
+// RevokePublicKey is a paid mutator transaction binding the contract method 0xa8c59169.
+//
+// Solidity: function revokePublicKey(publicKeyHash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactorSession) RevokePublicKey(publicKeyHash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.RevokePublicKey(&_CertRegistry.TransactOpts, publicKeyHash)
+}
+
+// RevokeRootCert is a paid mutator transaction binding the contract method 0x93b08c32.
+//
+// Solidity: function revokeRootCert(hash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactor) RevokeRootCert(opts *bind.TransactOpts, hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.contract.Transact(opts, "revokeRootCert", hash)
+}
+
+// RevokeRootCert is a paid mutator transaction binding the contract method 0x93b08c32.
+//
+// Solidity: function revokeRootCert(hash bytes32) returns()
+func (_CertRegistry *CertRegistrySession) RevokeRootCert(hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.RevokeRootCert(&_CertRegistry.TransactOpts, hash)
+}
+
+// RevokeRootCert is a paid mutator transaction binding the contract method 0x93b08c32.
+//
+// Solidity: function revokeRootCert(hash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactorSession) RevokeRootCert(hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.RevokeRootCert(&_CertRegistry.TransactOpts, hash)
+}
+
+// Suspend is a paid mutator transaction binding the contract method 0xb1c4235d.
+//
+// Solidity: function suspend(hash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactor) Suspend(opts *bind.TransactOpts, hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.contract.Transact(opts, "suspend", hash)
+}
+
+// Suspend is a paid mutator transaction binding the contract method 0xb1c4235d.
+//
+// Solidity: function suspend(hash bytes32) returns()
+func (_CertRegistry *CertRegistrySession) Suspend(hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.Suspend(&_CertRegistry.TransactOpts, hash)
+}
+
+// Suspend is a paid mutator transaction binding the contract method 0xb1c4235d.
+//
+// Solidity: function suspend(hash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactorSession) Suspend(hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.Suspend(&_CertRegistry.TransactOpts, hash)
 }
 
 // TransferOwnership is a paid mutator transaction binding the contract method 0xf2fde38b.
@@ -770,6 +816,27 @@ func (_CertRegistry *CertRegistrySession) Unpause() (*types.Transaction, error) 
 // Solidity: function unpause() returns()
 func (_CertRegistry *CertRegistryTransactorSession) Unpause() (*types.Transaction, error) {
 	return _CertRegistry.Contract.Unpause(&_CertRegistry.TransactOpts)
+}
+
+// Unsuspend is a paid mutator transaction binding the contract method 0x7c0c6c02.
+//
+// Solidity: function unsuspend(hash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactor) Unsuspend(opts *bind.TransactOpts, hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.contract.Transact(opts, "unsuspend", hash)
+}
+
+// Unsuspend is a paid mutator transaction binding the contract method 0x7c0c6c02.
+//
+// Solidity: function unsuspend(hash bytes32) returns()
+func (_CertRegistry *CertRegistrySession) Unsuspend(hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.Unsuspend(&_CertRegistry.TransactOpts, hash)
+}
+
+// Unsuspend is a paid mutator transaction binding the contract method 0x7c0c6c02.
+//
+// Solidity: function unsuspend(hash bytes32) returns()
+func (_CertRegistry *CertRegistryTransactorSession) Unsuspend(hash [32]byte) (*types.Transaction, error) {
+	return _CertRegistry.Contract.Unsuspend(&_CertRegistry.TransactOpts, hash)
 }
 
 // CertRegistryCertRegisteredIterator is returned from FilterCertRegistered and is used to iterate over the raw logs and unpacked data for CertRegistered events raised by the CertRegistry contract.
@@ -848,10 +915,19 @@ type CertRegistryCertRegistered struct {
 
 // FilterCertRegistered is a free log retrieval operation binding the contract event 0x54553ef3b4e1d60c041c89079b49d51c62e39543028b4861c9e25529acaa70e8.
 //
-// Solidity: e CertRegistered(registerer address, root bytes32)
-func (_CertRegistry *CertRegistryFilterer) FilterCertRegistered(opts *bind.FilterOpts) (*CertRegistryCertRegisteredIterator, error) {
+// Solidity: e CertRegistered(registerer indexed address, root indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) FilterCertRegistered(opts *bind.FilterOpts, registerer []common.Address, root [][32]byte) (*CertRegistryCertRegisteredIterator, error) {
 
-	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "CertRegistered")
+	var registererRule []interface{}
+	for _, registererItem := range registerer {
+		registererRule = append(registererRule, registererItem)
+	}
+	var rootRule []interface{}
+	for _, rootItem := range root {
+		rootRule = append(rootRule, rootItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "CertRegistered", registererRule, rootRule)
 	if err != nil {
 		return nil, err
 	}
@@ -860,10 +936,19 @@ func (_CertRegistry *CertRegistryFilterer) FilterCertRegistered(opts *bind.Filte
 
 // WatchCertRegistered is a free log subscription operation binding the contract event 0x54553ef3b4e1d60c041c89079b49d51c62e39543028b4861c9e25529acaa70e8.
 //
-// Solidity: e CertRegistered(registerer address, root bytes32)
-func (_CertRegistry *CertRegistryFilterer) WatchCertRegistered(opts *bind.WatchOpts, sink chan<- *CertRegistryCertRegistered) (event.Subscription, error) {
+// Solidity: e CertRegistered(registerer indexed address, root indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) WatchCertRegistered(opts *bind.WatchOpts, sink chan<- *CertRegistryCertRegistered, registerer []common.Address, root [][32]byte) (event.Subscription, error) {
 
-	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "CertRegistered")
+	var registererRule []interface{}
+	for _, registererItem := range registerer {
+		registererRule = append(registererRule, registererItem)
+	}
+	var rootRule []interface{}
+	for _, rootItem := range root {
+		rootRule = append(rootRule, rootItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "CertRegistered", registererRule, rootRule)
 	if err != nil {
 		return nil, err
 	}
@@ -971,10 +1056,19 @@ type CertRegistryCertRevoked struct {
 
 // FilterCertRevoked is a free log retrieval operation binding the contract event 0x95805cdad68eccc1a7e73b9e1dd10d0561be298bdab9e5609e309df2e3c3d7b7.
 //
-// Solidity: e CertRevoked(revoker address, hash bytes32)
-func (_CertRegistry *CertRegistryFilterer) FilterCertRevoked(opts *bind.FilterOpts) (*CertRegistryCertRevokedIterator, error) {
+// Solidity: e CertRevoked(revoker indexed address, hash indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) FilterCertRevoked(opts *bind.FilterOpts, revoker []common.Address, hash [][32]byte) (*CertRegistryCertRevokedIterator, error) {
 
-	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "CertRevoked")
+	var revokerRule []interface{}
+	for _, revokerItem := range revoker {
+		revokerRule = append(revokerRule, revokerItem)
+	}
+	var hashRule []interface{}
+	for _, hashItem := range hash {
+		hashRule = append(hashRule, hashItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "CertRevoked", revokerRule, hashRule)
 	if err != nil {
 		return nil, err
 	}
@@ -983,10 +1077,19 @@ func (_CertRegistry *CertRegistryFilterer) FilterCertRevoked(opts *bind.FilterOp
 
 // WatchCertRevoked is a free log subscription operation binding the contract event 0x95805cdad68eccc1a7e73b9e1dd10d0561be298bdab9e5609e309df2e3c3d7b7.
 //
-// Solidity: e CertRevoked(revoker address, hash bytes32)
-func (_CertRegistry *CertRegistryFilterer) WatchCertRevoked(opts *bind.WatchOpts, sink chan<- *CertRegistryCertRevoked) (event.Subscription, error) {
+// Solidity: e CertRevoked(revoker indexed address, hash indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) WatchCertRevoked(opts *bind.WatchOpts, sink chan<- *CertRegistryCertRevoked, revoker []common.Address, hash [][32]byte) (event.Subscription, error) {
 
-	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "CertRevoked")
+	var revokerRule []interface{}
+	for _, revokerItem := range revoker {
+		revokerRule = append(revokerRule, revokerItem)
+	}
+	var hashRule []interface{}
+	for _, hashItem := range hash {
+		hashRule = append(hashRule, hashItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "CertRevoked", revokerRule, hashRule)
 	if err != nil {
 		return nil, err
 	}
@@ -998,6 +1101,288 @@ func (_CertRegistry *CertRegistryFilterer) WatchCertRevoked(opts *bind.WatchOpts
 				// New log arrived, parse the event and forward to the user
 				event := new(CertRegistryCertRevoked)
 				if err := _CertRegistry.contract.UnpackLog(event, "CertRevoked", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// CertRegistryCertSuspendedIterator is returned from FilterCertSuspended and is used to iterate over the raw logs and unpacked data for CertSuspended events raised by the CertRegistry contract.
+type CertRegistryCertSuspendedIterator struct {
+	Event *CertRegistryCertSuspended // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *CertRegistryCertSuspendedIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(CertRegistryCertSuspended)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(CertRegistryCertSuspended)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *CertRegistryCertSuspendedIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *CertRegistryCertSuspendedIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// CertRegistryCertSuspended represents a CertSuspended event raised by the CertRegistry contract.
+type CertRegistryCertSuspended struct {
+	By   common.Address
+	Hash [32]byte
+	Raw  types.Log // Blockchain specific contextual infos
+}
+
+// FilterCertSuspended is a free log retrieval operation binding the contract event 0xec2bd867db75fad82804f7658ccf265869f637920627f1bbaa4b1f4e328b6209.
+//
+// Solidity: e CertSuspended(by indexed address, hash indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) FilterCertSuspended(opts *bind.FilterOpts, by []common.Address, hash [][32]byte) (*CertRegistryCertSuspendedIterator, error) {
+
+	var byRule []interface{}
+	for _, byItem := range by {
+		byRule = append(byRule, byItem)
+	}
+	var hashRule []interface{}
+	for _, hashItem := range hash {
+		hashRule = append(hashRule, hashItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "CertSuspended", byRule, hashRule)
+	if err != nil {
+		return nil, err
+	}
+	return &CertRegistryCertSuspendedIterator{contract: _CertRegistry.contract, event: "CertSuspended", logs: logs, sub: sub}, nil
+}
+
+// WatchCertSuspended is a free log subscription operation binding the contract event 0xec2bd867db75fad82804f7658ccf265869f637920627f1bbaa4b1f4e328b6209.
+//
+// Solidity: e CertSuspended(by indexed address, hash indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) WatchCertSuspended(opts *bind.WatchOpts, sink chan<- *CertRegistryCertSuspended, by []common.Address, hash [][32]byte) (event.Subscription, error) {
+
+	var byRule []interface{}
+	for _, byItem := range by {
+		byRule = append(byRule, byItem)
+	}
+	var hashRule []interface{}
+	for _, hashItem := range hash {
+		hashRule = append(hashRule, hashItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "CertSuspended", byRule, hashRule)
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(CertRegistryCertSuspended)
+				if err := _CertRegistry.contract.UnpackLog(event, "CertSuspended", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// CertRegistryCertUnsuspendedIterator is returned from FilterCertUnsuspended and is used to iterate over the raw logs and unpacked data for CertUnsuspended events raised by the CertRegistry contract.
+type CertRegistryCertUnsuspendedIterator struct {
+	Event *CertRegistryCertUnsuspended // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *CertRegistryCertUnsuspendedIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(CertRegistryCertUnsuspended)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(CertRegistryCertUnsuspended)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *CertRegistryCertUnsuspendedIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *CertRegistryCertUnsuspendedIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// CertRegistryCertUnsuspended represents a CertUnsuspended event raised by the CertRegistry contract.
+type CertRegistryCertUnsuspended struct {
+	By   common.Address
+	Hash [32]byte
+	Raw  types.Log // Blockchain specific contextual infos
+}
+
+// FilterCertUnsuspended is a free log retrieval operation binding the contract event 0x4ad880bd6cf5334828ab1a67917e546b48e428d7c741db97e6a5ccc08f6543d3.
+//
+// Solidity: e CertUnsuspended(by indexed address, hash indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) FilterCertUnsuspended(opts *bind.FilterOpts, by []common.Address, hash [][32]byte) (*CertRegistryCertUnsuspendedIterator, error) {
+
+	var byRule []interface{}
+	for _, byItem := range by {
+		byRule = append(byRule, byItem)
+	}
+	var hashRule []interface{}
+	for _, hashItem := range hash {
+		hashRule = append(hashRule, hashItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "CertUnsuspended", byRule, hashRule)
+	if err != nil {
+		return nil, err
+	}
+	return &CertRegistryCertUnsuspendedIterator{contract: _CertRegistry.contract, event: "CertUnsuspended", logs: logs, sub: sub}, nil
+}
+
+// WatchCertUnsuspended is a free log subscription operation binding the contract event 0x4ad880bd6cf5334828ab1a67917e546b48e428d7c741db97e6a5ccc08f6543d3.
+//
+// Solidity: e CertUnsuspended(by indexed address, hash indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) WatchCertUnsuspended(opts *bind.WatchOpts, sink chan<- *CertRegistryCertUnsuspended, by []common.Address, hash [][32]byte) (event.Subscription, error) {
+
+	var byRule []interface{}
+	for _, byItem := range by {
+		byRule = append(byRule, byItem)
+	}
+	var hashRule []interface{}
+	for _, hashItem := range hash {
+		hashRule = append(hashRule, hashItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "CertUnsuspended", byRule, hashRule)
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(CertRegistryCertUnsuspended)
+				if err := _CertRegistry.contract.UnpackLog(event, "CertUnsuspended", log); err != nil {
 					return err
 				}
 				event.Raw = log
@@ -1087,26 +1472,26 @@ func (it *CertRegistryOwnershipTransferredIterator) Close() error {
 
 // CertRegistryOwnershipTransferred represents a OwnershipTransferred event raised by the CertRegistry contract.
 type CertRegistryOwnershipTransferred struct {
-	PreviousOwner common.Address
-	NewOwner      common.Address
-	Raw           types.Log // Blockchain specific contextual infos
+	CurrentOwner common.Address
+	NewOwner     common.Address
+	Raw          types.Log // Blockchain specific contextual infos
 }
 
 // FilterOwnershipTransferred is a free log retrieval operation binding the contract event 0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0.
 //
-// Solidity: e OwnershipTransferred(previousOwner indexed address, newOwner indexed address)
-func (_CertRegistry *CertRegistryFilterer) FilterOwnershipTransferred(opts *bind.FilterOpts, previousOwner []common.Address, newOwner []common.Address) (*CertRegistryOwnershipTransferredIterator, error) {
+// Solidity: e OwnershipTransferred(currentOwner indexed address, newOwner indexed address)
+func (_CertRegistry *CertRegistryFilterer) FilterOwnershipTransferred(opts *bind.FilterOpts, currentOwner []common.Address, newOwner []common.Address) (*CertRegistryOwnershipTransferredIterator, error) {
 
-	var previousOwnerRule []interface{}
-	for _, previousOwnerItem := range previousOwner {
-		previousOwnerRule = append(previousOwnerRule, previousOwnerItem)
+	var currentOwnerRule []interface{}
+	for _, currentOwnerItem := range currentOwner {
+		currentOwnerRule = append(currentOwnerRule, currentOwnerItem)
 	}
 	var newOwnerRule []interface{}
 	for _, newOwnerItem := range newOwner {
 		newOwnerRule = append(newOwnerRule, newOwnerItem)
 	}
 
-	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "OwnershipTransferred", previousOwnerRule, newOwnerRule)
+	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "OwnershipTransferred", currentOwnerRule, newOwnerRule)
 	if err != nil {
 		return nil, err
 	}
@@ -1115,19 +1500,19 @@ func (_CertRegistry *CertRegistryFilterer) FilterOwnershipTransferred(opts *bind
 
 // WatchOwnershipTransferred is a free log subscription operation binding the contract event 0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0.
 //
-// Solidity: e OwnershipTransferred(previousOwner indexed address, newOwner indexed address)
-func (_CertRegistry *CertRegistryFilterer) WatchOwnershipTransferred(opts *bind.WatchOpts, sink chan<- *CertRegistryOwnershipTransferred, previousOwner []common.Address, newOwner []common.Address) (event.Subscription, error) {
+// Solidity: e OwnershipTransferred(currentOwner indexed address, newOwner indexed address)
+func (_CertRegistry *CertRegistryFilterer) WatchOwnershipTransferred(opts *bind.WatchOpts, sink chan<- *CertRegistryOwnershipTransferred, currentOwner []common.Address, newOwner []common.Address) (event.Subscription, error) {
 
-	var previousOwnerRule []interface{}
-	for _, previousOwnerItem := range previousOwner {
-		previousOwnerRule = append(previousOwnerRule, previousOwnerItem)
+	var currentOwnerRule []interface{}
+	for _, currentOwnerItem := range currentOwner {
+		currentOwnerRule = append(currentOwnerRule, currentOwnerItem)
 	}
 	var newOwnerRule []interface{}
 	for _, newOwnerItem := range newOwner {
 		newOwnerRule = append(newOwnerRule, newOwnerItem)
 	}
 
-	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "OwnershipTransferred", previousOwnerRule, newOwnerRule)
+	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "OwnershipTransferred", currentOwnerRule, newOwnerRule)
 	if err != nil {
 		return nil, err
 	}
@@ -1545,9 +1930,9 @@ func (_CertRegistry *CertRegistryFilterer) WatchPauserRemoved(opts *bind.WatchOp
 	}), nil
 }
 
-// CertRegistryRootOwnershipGivenIterator is returned from FilterRootOwnershipGiven and is used to iterate over the raw logs and unpacked data for RootOwnershipGiven events raised by the CertRegistry contract.
-type CertRegistryRootOwnershipGivenIterator struct {
-	Event *CertRegistryRootOwnershipGiven // Event containing the contract specifics and raw log
+// CertRegistryPublicKeyRegisteredIterator is returned from FilterPublicKeyRegistered and is used to iterate over the raw logs and unpacked data for PublicKeyRegistered events raised by the CertRegistry contract.
+type CertRegistryPublicKeyRegisteredIterator struct {
+	Event *CertRegistryPublicKeyRegistered // Event containing the contract specifics and raw log
 
 	contract *bind.BoundContract // Generic contract to use for unpacking event data
 	event    string              // Event name to use for unpacking event data
@@ -1561,7 +1946,7 @@ type CertRegistryRootOwnershipGivenIterator struct {
 // Next advances the iterator to the subsequent event, returning whether there
 // are any more events found. In case of a retrieval or parsing error, false is
 // returned and Error() can be queried for the exact failure.
-func (it *CertRegistryRootOwnershipGivenIterator) Next() bool {
+func (it *CertRegistryPublicKeyRegisteredIterator) Next() bool {
 	// If the iterator failed, stop iterating
 	if it.fail != nil {
 		return false
@@ -1570,7 +1955,7 @@ func (it *CertRegistryRootOwnershipGivenIterator) Next() bool {
 	if it.done {
 		select {
 		case log := <-it.logs:
-			it.Event = new(CertRegistryRootOwnershipGiven)
+			it.Event = new(CertRegistryPublicKeyRegistered)
 			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 				it.fail = err
 				return false
@@ -1585,7 +1970,7 @@ func (it *CertRegistryRootOwnershipGivenIterator) Next() bool {
 	// Iterator still in progress, wait for either a data or an error event
 	select {
 	case log := <-it.logs:
-		it.Event = new(CertRegistryRootOwnershipGiven)
+		it.Event = new(CertRegistryPublicKeyRegistered)
 		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
 			it.fail = err
 			return false
@@ -1601,42 +1986,60 @@ func (it *CertRegistryRootOwnershipGivenIterator) Next() bool {
 }
 
 // Error returns any retrieval or parsing error occurred during filtering.
-func (it *CertRegistryRootOwnershipGivenIterator) Error() error {
+func (it *CertRegistryPublicKeyRegisteredIterator) Error() error {
 	return it.fail
 }
 
 // Close terminates the iteration process, releasing any pending underlying
 // resources.
-func (it *CertRegistryRootOwnershipGivenIterator) Close() error {
+func (it *CertRegistryPublicKeyRegisteredIterator) Close() error {
 	it.sub.Unsubscribe()
 	return nil
 }
 
-// CertRegistryRootOwnershipGiven represents a RootOwnershipGiven event raised by the CertRegistry contract.
-type CertRegistryRootOwnershipGiven struct {
-	CurrentOwner common.Address
-	NewOwner     common.Address
-	Raw          types.Log // Blockchain specific contextual infos
+// CertRegistryPublicKeyRegistered represents a PublicKeyRegistered event raised by the CertRegistry contract.
+type CertRegistryPublicKeyRegistered struct {
+	Registrant common.Address
+	Key        [32]byte
+	Raw        types.Log // Blockchain specific contextual infos
 }
 
-// FilterRootOwnershipGiven is a free log retrieval operation binding the contract event 0x2854d8d9ea9d5530703d62c8b3e8bb2459a9136e7607511da717b2a13dcf70b8.
+// FilterPublicKeyRegistered is a free log retrieval operation binding the contract event 0x7a4bc391d21f6e1266001f2c5792e6d1eaf34a68d5540916835e975c17e27e90.
 //
-// Solidity: e RootOwnershipGiven(currentOwner address, newOwner address)
-func (_CertRegistry *CertRegistryFilterer) FilterRootOwnershipGiven(opts *bind.FilterOpts) (*CertRegistryRootOwnershipGivenIterator, error) {
+// Solidity: e PublicKeyRegistered(_registrant indexed address, _key indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) FilterPublicKeyRegistered(opts *bind.FilterOpts, _registrant []common.Address, _key [][32]byte) (*CertRegistryPublicKeyRegisteredIterator, error) {
 
-	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "RootOwnershipGiven")
+	var _registrantRule []interface{}
+	for _, _registrantItem := range _registrant {
+		_registrantRule = append(_registrantRule, _registrantItem)
+	}
+	var _keyRule []interface{}
+	for _, _keyItem := range _key {
+		_keyRule = append(_keyRule, _keyItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "PublicKeyRegistered", _registrantRule, _keyRule)
 	if err != nil {
 		return nil, err
 	}
-	return &CertRegistryRootOwnershipGivenIterator{contract: _CertRegistry.contract, event: "RootOwnershipGiven", logs: logs, sub: sub}, nil
+	return &CertRegistryPublicKeyRegisteredIterator{contract: _CertRegistry.contract, event: "PublicKeyRegistered", logs: logs, sub: sub}, nil
 }
 
-// WatchRootOwnershipGiven is a free log subscription operation binding the contract event 0x2854d8d9ea9d5530703d62c8b3e8bb2459a9136e7607511da717b2a13dcf70b8.
+// WatchPublicKeyRegistered is a free log subscription operation binding the contract event 0x7a4bc391d21f6e1266001f2c5792e6d1eaf34a68d5540916835e975c17e27e90.
 //
-// Solidity: e RootOwnershipGiven(currentOwner address, newOwner address)
-func (_CertRegistry *CertRegistryFilterer) WatchRootOwnershipGiven(opts *bind.WatchOpts, sink chan<- *CertRegistryRootOwnershipGiven) (event.Subscription, error) {
+// Solidity: e PublicKeyRegistered(_registrant indexed address, _key indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) WatchPublicKeyRegistered(opts *bind.WatchOpts, sink chan<- *CertRegistryPublicKeyRegistered, _registrant []common.Address, _key [][32]byte) (event.Subscription, error) {
 
-	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "RootOwnershipGiven")
+	var _registrantRule []interface{}
+	for _, _registrantItem := range _registrant {
+		_registrantRule = append(_registrantRule, _registrantItem)
+	}
+	var _keyRule []interface{}
+	for _, _keyItem := range _key {
+		_keyRule = append(_keyRule, _keyItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "PublicKeyRegistered", _registrantRule, _keyRule)
 	if err != nil {
 		return nil, err
 	}
@@ -1646,8 +2049,149 @@ func (_CertRegistry *CertRegistryFilterer) WatchRootOwnershipGiven(opts *bind.Wa
 			select {
 			case log := <-logs:
 				// New log arrived, parse the event and forward to the user
-				event := new(CertRegistryRootOwnershipGiven)
-				if err := _CertRegistry.contract.UnpackLog(event, "RootOwnershipGiven", log); err != nil {
+				event := new(CertRegistryPublicKeyRegistered)
+				if err := _CertRegistry.contract.UnpackLog(event, "PublicKeyRegistered", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// CertRegistryPublicKeyRevokedIterator is returned from FilterPublicKeyRevoked and is used to iterate over the raw logs and unpacked data for PublicKeyRevoked events raised by the CertRegistry contract.
+type CertRegistryPublicKeyRevokedIterator struct {
+	Event *CertRegistryPublicKeyRevoked // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *CertRegistryPublicKeyRevokedIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(CertRegistryPublicKeyRevoked)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(CertRegistryPublicKeyRevoked)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *CertRegistryPublicKeyRevokedIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *CertRegistryPublicKeyRevokedIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// CertRegistryPublicKeyRevoked represents a PublicKeyRevoked event raised by the CertRegistry contract.
+type CertRegistryPublicKeyRevoked struct {
+	Registrant common.Address
+	Key        [32]byte
+	Raw        types.Log // Blockchain specific contextual infos
+}
+
+// FilterPublicKeyRevoked is a free log retrieval operation binding the contract event 0x01c3841b6054f5eaf9cb35be277318f5aaf3fc8edafcfa6020dd353c2c7177c7.
+//
+// Solidity: e PublicKeyRevoked(_registrant indexed address, _key indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) FilterPublicKeyRevoked(opts *bind.FilterOpts, _registrant []common.Address, _key [][32]byte) (*CertRegistryPublicKeyRevokedIterator, error) {
+
+	var _registrantRule []interface{}
+	for _, _registrantItem := range _registrant {
+		_registrantRule = append(_registrantRule, _registrantItem)
+	}
+	var _keyRule []interface{}
+	for _, _keyItem := range _key {
+		_keyRule = append(_keyRule, _keyItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.FilterLogs(opts, "PublicKeyRevoked", _registrantRule, _keyRule)
+	if err != nil {
+		return nil, err
+	}
+	return &CertRegistryPublicKeyRevokedIterator{contract: _CertRegistry.contract, event: "PublicKeyRevoked", logs: logs, sub: sub}, nil
+}
+
+// WatchPublicKeyRevoked is a free log subscription operation binding the contract event 0x01c3841b6054f5eaf9cb35be277318f5aaf3fc8edafcfa6020dd353c2c7177c7.
+//
+// Solidity: e PublicKeyRevoked(_registrant indexed address, _key indexed bytes32)
+func (_CertRegistry *CertRegistryFilterer) WatchPublicKeyRevoked(opts *bind.WatchOpts, sink chan<- *CertRegistryPublicKeyRevoked, _registrant []common.Address, _key [][32]byte) (event.Subscription, error) {
+
+	var _registrantRule []interface{}
+	for _, _registrantItem := range _registrant {
+		_registrantRule = append(_registrantRule, _registrantItem)
+	}
+	var _keyRule []interface{}
+	for _, _keyItem := range _key {
+		_keyRule = append(_keyRule, _keyItem)
+	}
+
+	logs, sub, err := _CertRegistry.contract.WatchLogs(opts, "PublicKeyRevoked", _registrantRule, _keyRule)
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(CertRegistryPublicKeyRevoked)
+				if err := _CertRegistry.contract.UnpackLog(event, "PublicKeyRevoked", log); err != nil {
 					return err
 				}
 				event.Raw = log

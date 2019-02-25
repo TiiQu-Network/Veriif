@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	contractAddress = "0x9Aa3E42eCD64D3E36e32bD883d1Cc3c6659b8f6a"
+	contractAddress = "0x6De37C9538f9EB6129D22C4f9372B8be2b98b96E"
 	node            = "https://kovan.infura.io/v3/87abed49b20c49bd99f9bc2645023f34"
 )
 
