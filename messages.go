@@ -18,7 +18,7 @@ func printTitle() {
 	color.Unset()
 
 	println("application - Veriif (c) 2019 TiiQu Ltd")
-	println("version - 0.2.2")
+	println("version - 0.3.0")
 	println("")
 }
 
