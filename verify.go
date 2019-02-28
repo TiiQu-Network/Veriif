@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"github.com/Samyoul/Veriif/models"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 	"regexp"
@@ -45,6 +46,11 @@ func verify(content []byte) (models.CertPacket, map[string]bool, error) {
 	output["check_hash"] = true
 
 	// TODO check public key is known
+	err = checkPublicKeyRegistered(data)
+	if err != nil {
+		return data, output, err
+	}
+	output["check_pk_registered"] = true
 
 	// Check the signature verifies
 	err = checkSigVerifies(certHash, data)
@@ -191,6 +197,27 @@ func parsePublicKey(pemBytes []byte) (*rsa.PublicKey, error) {
 	default:
 		return nil, errors.Errorf("unsupported key type %q", block.Type)
 	}
+}
+
+func checkPublicKeyRegistered(data models.CertPacket) error {
+	pkb := []byte(data.PublicKey)
+	pb, r := pem.Decode(pkb)
+	if pb == nil {
+		return errors.New("no key found")
+	}
+	spew.Dump(pb, r)
+
+	hash := sha256.Sum256(pb.Bytes)
+	registered, err := certRegContract.PublicKeyIsRegistered(callOpts, hash)
+	if err != nil {
+		return err
+	}
+
+	if !registered{
+		return errors.New("Public key if not registered")
+	}
+
+	return nil
 }
 
 func proofFromModel(md models.MerkleProof) (gomerkle.Proof, error) {
