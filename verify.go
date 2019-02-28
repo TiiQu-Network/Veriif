@@ -45,7 +45,7 @@ func verify(content []byte) (models.CertPacket, map[string]bool, error) {
 	}
 	output["check_hash"] = true
 
-	// TODO check public key is known
+	// check public key is known
 	err = checkPublicKeyRegistered(data)
 	if err != nil {
 		return data, output, err
@@ -72,6 +72,13 @@ func verify(content []byte) (models.CertPacket, map[string]bool, error) {
 		return data, output, err
 	}
 	output["check_merkle_root"] = true
+
+	// check hash has been suspended
+	err = checkHashSuspended(certHash)
+	if err != nil {
+		return data, output, err
+	}
+	output["check_suspended"] = true
 
 	// Check hash or merkle root has been revoked
 	err = checkHashRevoked(certHash, mr)
@@ -243,6 +250,21 @@ func rootExistsOnChain(root []byte) (bool, error) {
 	copy(mr32[:], root)
 
 	return certRegContract.RootExists(callOpts, mr32)
+}
+
+func checkHashSuspended(certHash []byte) error {
+
+	var ch32 [32]byte
+	copy(ch32[:], certHash)
+	chr, err := certRegContract.IsSuspended(callOpts, ch32)
+	if err != nil {
+		return err
+	}
+	if chr == true {
+		return errors.New("Certificate has been suspended")
+	}
+
+	return nil
 }
 
 func checkHashRevoked(certHash []byte, root []byte) error {

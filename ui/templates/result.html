@@ -57,8 +57,14 @@
             <h5 class="text-danger">Fail - Merkle root not on chain</h5>
         {{end}}
 
+        {{if .results.check_suspended}}
+            <h5 class="text-tiiqu">Success - Certificate valid (not suspended)</h5>
+        {{else}}
+            <h5 class="text-danger">Fail - Certificate has been suspended</h5>
+        {{end}}
+
         {{if .results.check_revocation}}
-            <h5 class="text-tiiqu">Success - Certificate valid</h5>
+            <h5 class="text-tiiqu">Success - Certificate valid (not revoked)</h5>
         {{else}}
             <h5 class="text-danger">Fail - Certificate has been revoked</h5>
         {{end}}
