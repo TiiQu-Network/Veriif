@@ -8,11 +8,13 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"encoding/pem"
+	"fmt"
 	"github.com/Samyoul/Veriif/models"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 	"regexp"
+	"time"
 )
 
 func verify(content []byte) (models.CertPacket, map[string]bool, error) {
@@ -44,6 +46,13 @@ func verify(content []byte) (models.CertPacket, map[string]bool, error) {
 		return data, output, err
 	}
 	output["check_hash"] = true
+
+	// Check that the "expires_on" is not expired
+	err = checkHasExpired(data.Data["expires_on"])
+	if err != nil {
+		return data, output, err
+	}
+	output["check_expired"] = true
 
 	// check public key is known
 	err = checkPublicKeyRegistered(data)
@@ -128,6 +137,24 @@ func checkHashMatch(calcHash []byte, data models.CertPacket) ([]byte, error) {
 	}
 
 	return certHash, nil
+}
+
+func checkHasExpired(expireDate string) error {
+	if expireDate != "nil" {
+
+		// Check date is in the correct format
+		t, err := time.Parse("2006-01-02", expireDate)
+		if err != nil {
+			return errors.New(fmt.Sprintf("'%s' is not a valid date format. Please format in date in YYYY-MM-DD.", expireDate))
+		}
+
+		// Check date is in the future
+		if t.Before(time.Now()){
+			return errors.New(fmt.Sprintf(expireDate+" must be a date in the future. %s is not a valid date.", expireDate))
+		}
+	}
+
+	return nil
 }
 
 func checkSigVerifies(certHash []byte, data models.CertPacket) error {

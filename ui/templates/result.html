@@ -33,6 +33,12 @@
             <h5 class="text-danger">Fail - Hash does not match</h5>
         {{end}}
 
+        {{if .results.check_expired}}
+            <h5 class="text-tiiqu">Success - Certificate current</h5>
+        {{else}}
+            <h5 class="text-danger">Fail - Certificate has expired</h5>
+        {{end}}
+
         {{if .results.check_pk_registered}}
             <h5 class="text-tiiqu">Success - Public key is registered</h5>
         {{else}}
