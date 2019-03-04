@@ -17,6 +17,14 @@ import (
 	"time"
 )
 
+var (
+	expiresOn = "expires_on"
+
+	mandatoryFields = []string{
+		expiresOn,
+	}
+)
+
 func verify(content []byte) (models.CertPacket, map[string]bool, error) {
 	output := map[string]bool{}
 	certPacket := models.CertPacket{}
@@ -30,6 +38,12 @@ func verify(content []byte) (models.CertPacket, map[string]bool, error) {
 	// Parse the cert data into the expected struct
 	data := models.CertPacket{}
 	err = json.Unmarshal(cert, &data)
+	if err != nil {
+		return data, nil, err
+	}
+
+	// Check that mandatory fields are present
+	err = hasFields(mandatoryFields, data.Data, "missing mandatory field(s) : ")
 	if err != nil {
 		return data, nil, err
 	}
@@ -48,7 +62,7 @@ func verify(content []byte) (models.CertPacket, map[string]bool, error) {
 	output["check_hash"] = true
 
 	// Check that the "expires_on" is not expired
-	err = checkHasExpired(data.Data["expires_on"])
+	err = checkHasExpired(data.Data[expiresOn])
 	if err != nil {
 		return data, output, err
 	}
@@ -114,6 +128,40 @@ func findCert(location []byte) ([]byte, error) {
 	return nil, errors.New("No Certiif certificate found")
 }
 
+func hasFields(fields []string, data map[string]string, errMsg string) error {
+	// Set up the mandatory field check
+	result := map[string]bool{}
+	for _, mandatory := range fields {
+		result[mandatory] = false
+	}
+
+	// Check the fields
+	for key := range data {
+		for _, mandatory := range fields {
+			if key == mandatory {
+				result[mandatory] = true
+			}
+		}
+	}
+
+	// Check for fails
+	message := ""
+	for man, res := range result {
+		if !res {
+			if message == "" {
+				message += errMsg + man
+			} else {
+				message += ", " + man
+			}
+		}
+	}
+	if message == "" {
+		return nil
+	} else {
+		return errors.New(message)
+	}
+}
+
 func calculateDataHash(cert models.CertPacket) ([32]byte, error) {
 	jn, err := json.Marshal(cert.Data)
 	if err != nil {
@@ -149,7 +197,7 @@ func checkHasExpired(expireDate string) error {
 		}
 
 		// Check date is in the future
-		if t.Before(time.Now()){
+		if t.Before(time.Now()) {
 			return errors.New(fmt.Sprintf(expireDate+" must be a date in the future. %s is not a valid date.", expireDate))
 		}
 	}
@@ -247,7 +295,7 @@ func checkPublicKeyRegistered(data models.CertPacket) error {
 		return err
 	}
 
-	if !registered{
+	if !registered {
 		return errors.New("Public key if not registered")
 	}
 
