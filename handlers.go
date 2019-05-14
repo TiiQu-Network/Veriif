@@ -63,7 +63,11 @@ func (a App) API(w http.ResponseWriter, r *http.Request) {
 		data := map[string]interface{}{}
 		data["results"] = results
 		data["cert_data"] = certPacket.Data
-		data["fail"] = err
+		if err !=nil {
+			data["fail"] = err.Error()
+		} else {
+			data["fail"] = err
+		}
 
 		response, _ := json.Marshal(data)
 
