@@ -25,92 +25,96 @@ var (
 	}
 )
 
-func verify(content []byte) (models.CertPacket, map[string]bool, error) {
+func verify(data models.CertPacket) (map[string]bool, error) {
 	output := map[string]bool{}
-	certPacket := models.CertPacket{}
-
-	// Get the cert data from a file
-	cert, err := findCert(content)
-	if err != nil {
-		return certPacket, nil, err
-	}
-
-	// Parse the cert data into the expected struct
-	data := models.CertPacket{}
-	err = json.Unmarshal(cert, &data)
-	if err != nil {
-		return data, nil, err
-	}
 
 	// Check that mandatory fields are present
-	err = hasFields(mandatoryFields, data.Data, "missing mandatory field(s) : ")
+	err := hasFields(mandatoryFields, data.Data, "missing mandatory field(s) : ")
 	if err != nil {
-		return data, nil, err
+		return nil, err
 	}
 
 	// Calculate the hash of the data
 	calcHash, err := calculateDataHash(data)
 	if err != nil {
-		return data, nil, err
+		return nil, err
 	}
 
 	// Check the calculated hash matches the cert hash
 	certHash, err := checkHashMatch(calcHash[:], data)
 	if err != nil {
-		return data, output, err
+		return output, err
 	}
 	output["check_hash"] = true
 
 	// Check that the "expires_on" is not expired
 	err = checkHasExpired(data.Data[expiresOn])
 	if err != nil {
-		return data, output, err
+		return output, err
 	}
 	output["check_expired"] = true
 
 	// check public key is known
 	err = checkPublicKeyRegistered(data)
 	if err != nil {
-		return data, output, err
+		return output, err
 	}
 	output["check_pk_registered"] = true
 
 	// Check the signature verifies
 	err = checkSigVerifies(certHash, data)
 	if err != nil {
-		return data, output, err
+		return output, err
 	}
 	output["check_sig"] = true
 
 	// Check the Merkle proof is verifies
 	mr, err := checkMerkleProof(certHash, data)
 	if err != nil {
-		return data, output, err
+		return output, err
 	}
 	output["check_merkle_proof"] = true
 
 	// Check merkle root is on blockchain
 	err = checkMerkelRoot(mr)
 	if err != nil {
-		return data, output, err
+		return output, err
 	}
 	output["check_merkle_root"] = true
 
 	// check hash has been suspended
 	err = checkHashSuspended(certHash)
 	if err != nil {
-		return data, output, err
+		return output, err
 	}
 	output["check_suspended"] = true
 
 	// Check hash or merkle root has been revoked
 	err = checkHashRevoked(certHash, mr)
 	if err != nil {
-		return data, output, err
+		return output, err
 	}
 	output["check_revocation"] = true
 
-	return data, output, nil
+	return output, nil
+}
+
+func extractCert(content []byte) (models.CertPacket,error){
+	certPacket := models.CertPacket{}
+
+	// Get the cert data from a file
+	cert, err := findCert(content)
+	if err != nil {
+		return certPacket, err
+	}
+
+	// Parse the cert data into the expected struct
+	err = json.Unmarshal(cert, &certPacket)
+	if err != nil {
+		return certPacket, err
+	}
+
+	return certPacket, nil
 }
 
 func findCert(location []byte) ([]byte, error) {

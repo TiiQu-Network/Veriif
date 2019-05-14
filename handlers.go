@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
+	"github.com/Samyoul/Veriif/models"
 	"html/template"
 	"io"
 	"net/http"
@@ -19,7 +21,9 @@ func (a App) Welcome(w http.ResponseWriter, r *http.Request) {
 		cert, err := getCert(r)
 		a.Log(err, "Getting cert data")
 
-		certPacket, results, err := verify(cert)
+		certPacket, err := extractCert(cert)
+
+		results, err := verify(certPacket)
 
 		data := map[string]interface{}{}
 		data["results"] = results
@@ -32,6 +36,40 @@ func (a App) Welcome(w http.ResponseWriter, r *http.Request) {
 		a.Log(err, "Parsing template files")
 		a.Log(t.ExecuteTemplate(w, "base", data), "Execute Welcome template")
 		break
+	}
+
+}
+
+func (a App) API(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+
+	case http.MethodPost:
+
+		decoder := json.NewDecoder(r.Body)
+
+		certPacket := models.CertPacket{}
+		err := decoder.Decode(&certPacket)
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			_, err = w.Write([]byte(`{"error":"Invalid request payload : `+err.Error()+`""}`))
+			return
+		}
+
+		// TODO add Validation of the incoming data
+
+		results, err := verify(certPacket)
+
+		data := map[string]interface{}{}
+		data["results"] = results
+		data["cert_data"] = certPacket.Data
+		data["fail"] = err
+
+		response, _ := json.Marshal(data)
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, err = w.Write(response)
 	}
 
 }

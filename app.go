@@ -8,7 +8,6 @@ import (
 	"net/http"
 )
 
-// TODO add proper error handling / logging
 type App struct {
 	ErrLogger *log.Logger
 	Mode *uint
@@ -65,6 +64,7 @@ func (a App) initRoutes() {
 
 	// Application routes
 	http.HandleFunc("/", a.Welcome)
+	http.HandleFunc("/api", a.API)
 }
 
 func (a App) initLoadingText() {
@@ -116,7 +116,8 @@ func (a App) verify() {
 		printError(err)
 	}
 
-	_, _, err = verify(content)
+	certPacket, err := extractCert(content)
+	_, err = verify(certPacket)
 	if err != nil {
 		printVerifyFail(err)
 	} else {
