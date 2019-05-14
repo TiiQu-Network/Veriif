@@ -42,6 +42,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	// Check the calculated hash matches the cert hash
 	certHash, err := checkHashMatch(calcHash[:], data)
 	if err != nil {
+		output["check_hash"] = false
 		return output, err
 	}
 	output["check_hash"] = true
@@ -49,6 +50,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	// Check that the "expires_on" is not expired
 	err = checkHasExpired(data.Data[expiresOn])
 	if err != nil {
+		output["check_expired"] = false
 		return output, err
 	}
 	output["check_expired"] = true
@@ -56,6 +58,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	// check public key is known
 	err = checkPublicKeyRegistered(data)
 	if err != nil {
+		output["check_pk_registered"] = false
 		return output, err
 	}
 	output["check_pk_registered"] = true
@@ -63,6 +66,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	// Check the signature verifies
 	err = checkSigVerifies(certHash, data)
 	if err != nil {
+		output["check_sig"] = false
 		return output, err
 	}
 	output["check_sig"] = true
@@ -70,6 +74,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	// Check the Merkle proof is verifies
 	mr, err := checkMerkleProof(certHash, data)
 	if err != nil {
+		output["check_merkle_proof"] = false
 		return output, err
 	}
 	output["check_merkle_proof"] = true
@@ -77,6 +82,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	// Check merkle root is on blockchain
 	err = checkMerkelRoot(mr)
 	if err != nil {
+		output["check_merkle_root"] = false
 		return output, err
 	}
 	output["check_merkle_root"] = true
@@ -84,6 +90,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	// check hash has been suspended
 	err = checkHashSuspended(certHash)
 	if err != nil {
+		output["check_suspended"] = false
 		return output, err
 	}
 	output["check_suspended"] = true
@@ -91,6 +98,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	// Check hash or merkle root has been revoked
 	err = checkHashRevoked(certHash, mr)
 	if err != nil {
+		output["check_revocation"] = false
 		return output, err
 	}
 	output["check_revocation"] = true
