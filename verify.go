@@ -10,7 +10,6 @@ import (
 	"encoding/pem"
 	"fmt"
 	"github.com/Samyoul/Veriif/models"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 	"regexp"
@@ -177,32 +176,45 @@ func calculateDataHash(cert models.CertPacket) ([32]byte, error) {
 }
 
 func checkHashMatch(calcHash []byte, data models.CertPacket) ([]byte, error) {
+	errorHeader := "Hash"
+
 	certHash, err := data.Hash.Decode()
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, errorHeader)
 	}
 
 	if bytes.Equal(calcHash[:], certHash) {
 		printSuccess("Hash match")
 	} else {
-		return nil, errors.New("Hash does not match")
+		return nil, errors.New(errorHeader + ": does not match")
 	}
 
 	return certHash, nil
 }
 
 func checkHasExpired(expireDate string) error {
+	errorHeader := "Expiry date"
+
 	if expireDate != "nil" {
 
 		// Check date is in the correct format
 		t, err := time.Parse("2006-01-02", expireDate)
 		if err != nil {
-			return errors.New(fmt.Sprintf("'%s' is not a valid date format. Please format in date in YYYY-MM-DD.", expireDate))
+			return errors.New(fmt.Sprintf(
+				"%s: '%s' is not a valid date format. Please format in date in YYYY-MM-DD.",
+				errorHeader,
+				expireDate),
+			)
 		}
 
 		// Check date is in the future
 		if t.Before(time.Now()) {
-			return errors.New(fmt.Sprintf(expireDate+" must be a date in the future. %s is not a valid date.", expireDate))
+			return errors.New(fmt.Sprintf(
+				"%s: %s must be a date in the future. %s is not a valid date.",
+				errorHeader,
+				expireDate,
+				expireDate),
+			)
 		}
 	}
 
@@ -210,6 +222,8 @@ func checkHasExpired(expireDate string) error {
 }
 
 func checkSigVerifies(certHash []byte, data models.CertPacket) error {
+	errorHeader := "Signature"
+
 	pk, err := parsePublicKey([]byte(data.PublicKey))
 	if err != nil {
 		return err
@@ -217,20 +231,22 @@ func checkSigVerifies(certHash []byte, data models.CertPacket) error {
 
 	sig, err := data.Signature.Decode()
 	if err != nil {
-		return err
+		return errors.Wrap(err, errorHeader)
 	}
 
 	err = rsa.VerifyPKCS1v15(pk, crypto.SHA256, certHash, sig)
 	if err != nil {
-		return errors.Wrap(err, "Signature does not verify")
+		return errors.Wrap(err, errorHeader+ ": does not verify")
 	} else {
-		printSuccess("Signature verification")
+		printSuccess(errorHeader + ": verification")
 	}
 
 	return nil
 }
 
 func checkMerkleProof(certHash []byte, data models.CertPacket) ([]byte, error) {
+	errorHeader := "Merkle proof"
+
 	mp, err := proofFromModel(data.MerkleProof)
 	if err != nil {
 		return nil, err
@@ -238,29 +254,31 @@ func checkMerkleProof(certHash []byte, data models.CertPacket) ([]byte, error) {
 
 	mr, err := data.MerkleRoot.Decode()
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Merkle root")
 	}
 
 	mt := gomerkle.NewTree(sha256.New())
 	if mt.VerifyProof(mp, mr, certHash) {
-		printSuccess("Merkle proof verification")
+		printSuccess(errorHeader + ": verification")
 	} else {
-		return nil, errors.New("Merkle proof does not verify")
+		return nil, errors.New(errorHeader + ": does not verify")
 	}
 
 	return mr, nil
 }
 
 func checkMerkelRoot(merkleRoot []byte) error {
+	errorHeader := "Merkle proof"
+
 	exists, err := rootExistsOnChain(merkleRoot)
 	if err != nil {
 		return err
 	}
 
 	if exists {
-		printSuccess("Merkle root on chain")
+		printSuccess(errorHeader + ": on chain")
 	} else {
-		return errors.New("Merkle root not on chain")
+		return errors.New(errorHeader + ": not on chain")
 	}
 
 	return nil
@@ -270,7 +288,7 @@ func checkMerkelRoot(merkleRoot []byte) error {
 func parsePublicKey(pemBytes []byte) (*rsa.PublicKey, error) {
 	block, _ := pem.Decode(pemBytes)
 	if block == nil {
-		return nil, errors.New("no key found")
+		return nil, errors.New("no valid key found")
 	}
 
 	switch block.Type {
@@ -286,12 +304,13 @@ func parsePublicKey(pemBytes []byte) (*rsa.PublicKey, error) {
 }
 
 func checkPublicKeyRegistered(data models.CertPacket) error {
+	errorHeader := "Public key"
+
 	pkb := []byte(data.PublicKey)
-	pb, r := pem.Decode(pkb)
+	pb, _ := pem.Decode(pkb)
 	if pb == nil {
-		return errors.New("no key found")
+		return errors.New(errorHeader + ": no key found")
 	}
-	spew.Dump(pb, r)
 
 	hash := sha256.Sum256(pb.Bytes)
 	registered, err := certRegContract.PublicKeyIsRegistered(callOpts, hash)
@@ -300,7 +319,7 @@ func checkPublicKeyRegistered(data models.CertPacket) error {
 	}
 
 	if !registered {
-		return errors.New("Public key if not registered")
+		return errors.New(errorHeader + ": is not registered")
 	}
 
 	return nil
@@ -313,7 +332,7 @@ func proofFromModel(md models.MerkleProof) (gomerkle.Proof, error) {
 		for dir, hashes := range item {
 			b, err := hashes.Decode()
 			if err != nil {
-				return pf, err
+				return pf, errors.Wrap(err, "Merkle proof")
 			}
 
 			p := map[string][]byte{dir: b}
@@ -332,39 +351,42 @@ func rootExistsOnChain(root []byte) (bool, error) {
 }
 
 func checkHashSuspended(certHash []byte) error {
+	errorHeader := "Suspended"
 
 	var ch32 [32]byte
 	copy(ch32[:], certHash)
 	chr, err := certRegContract.IsSuspended(callOpts, ch32)
 	if err != nil {
-		return err
+		return errors.Wrap(err, errorHeader)
 	}
 	if chr == true {
-		return errors.New("Certificate has been suspended")
+		return errors.New(errorHeader + ": certificate has been suspended")
 	}
 
 	return nil
 }
 
 func checkHashRevoked(certHash []byte, root []byte) error {
+	errorHeader := "Revoked"
+
 	var ch32 [32]byte
 	copy(ch32[:], certHash)
 	chr, err := certRegContract.IsRevoked(callOpts, ch32)
 	if err != nil {
-		return err
+		return errors.Wrap(err, errorHeader)
 	}
 	if chr == true {
-		return errors.New("Certificate has been revoked")
+		return errors.New(errorHeader + ": certificate has been revoked")
 	}
 
 	var r32 [32]byte
 	copy(r32[:], root)
 	rr, err := certRegContract.IsRevoked(callOpts, r32)
 	if err != nil {
-		return err
+		return errors.Wrap(err, errorHeader)
 	}
 	if rr == true {
-		return errors.New("Certificate batch has been revoked")
+		return errors.New(errorHeader + ": certificate batch has been revoked")
 	}
 
 	printSuccess("Certificate not revoked")

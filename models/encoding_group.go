@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"errors"
-	"strconv"
 )
 
 type EncodingGroup struct {
@@ -22,23 +21,23 @@ func NewEncodingGroup(hash []byte) EncodingGroup {
 }
 
 func (e *EncodingGroup) Decode() ([]byte, error) {
-	var data [][]byte
+	data := map[string][]byte{}
 
 	if len(e.Hex) > 0 {
 		h, _ := hex.DecodeString(e.Hex)
-		data = append(data, h)
+		data["hex"] = h
 	}
 
 	if len(e.Base64) > 0 {
 		b, _ := base64.StdEncoding.DecodeString(e.Base64)
-		data = append(data, b)
+		data["base64"] = b
 	}
 
 	for i, b := range data {
-		if !bytes.Equal(b, data[0]) {
-			return []byte{}, errors.New("decode mismatch between " + strconv.Itoa(i) + " and 0")
+		if !bytes.Equal(b, data["hex"]) {
+			return []byte{}, errors.New("decode mismatch between " + i + " and hex")
 		}
 	}
 
-	return data[0], nil
+	return data["hex"], nil
 }
