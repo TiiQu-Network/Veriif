@@ -33,11 +33,19 @@ func (e *EncodingGroup) Decode() ([]byte, error) {
 		data["base64"] = b
 	}
 
+	// Get the first element index in the map
+	var fei string
+	for i := range data {
+		fei = i
+		break
+	}
+
+	// Compare byte values
 	for i, b := range data {
-		if !bytes.Equal(b, data["hex"]) {
-			return []byte{}, errors.New("decode mismatch between " + i + " and hex")
+		if !bytes.Equal(b, data[fei]) {
+			return []byte{}, errors.New("decode mismatch between " + i + " and " + fei)
 		}
 	}
 
-	return data["hex"], nil
+	return data[fei], nil
 }
