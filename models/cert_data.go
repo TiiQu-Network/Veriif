@@ -6,9 +6,9 @@ type CertPacket struct {
 	Hash        EncodingGroup `json:"hash"`
 	MerkleProof MerkleProof   `json:"merkle_proof"`
 	MerkleRoot  EncodingGroup `json:"merkle_root"`
-	KeyType     string        `json:"key_type"`
-	PublicKey   string        `json:"public_key"`
-	Signature   EncodingGroup `json:"signature"`
+	KeyType     *string        `json:"key_type"`
+	PublicKey   *string        `json:"public_key"`
+	Signature   *EncodingGroup `json:"signature"`
 }
 
 type CertData map[string]string
