@@ -65,6 +65,7 @@ func (a App) initRoutes() {
 	// Application routes
 	http.HandleFunc("/", a.Welcome)
 	http.HandleFunc("/api", a.API)
+	http.HandleFunc("/api/lite", a.APILite)
 }
 
 func (a App) initLoadingText() {

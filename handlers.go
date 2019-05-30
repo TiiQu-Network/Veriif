@@ -78,6 +78,53 @@ func (a App) API(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func (a App) APILite(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+
+	case http.MethodPost:
+
+		decoder := json.NewDecoder(r.Body)
+
+		certPacketLite := models.CertPacketLite{}
+		err := decoder.Decode(&certPacketLite)
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			_, err = w.Write([]byte(`{"error":"Invalid request payload : `+err.Error()+`""}`))
+			return
+		}
+
+		// TODO add Validation of the incoming data
+
+		// Convert the CPL to a standard CP
+		certPacket, err := certPacketLite.ToCertPacket()
+		if err != nil {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			_, err = w.Write([]byte(`{"error":"Invalid request payload : `+err.Error()+`""}`))
+			return
+		}
+
+		results, err := verify(*certPacket)
+
+		data := map[string]interface{}{}
+		data["results"] = results
+		data["cert_data"] = certPacket.Data
+		if err !=nil {
+			data["fail"] = err.Error()
+		} else {
+			data["fail"] = err
+		}
+
+		response, _ := json.Marshal(data)
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, err = w.Write(response)
+	}
+
+}
+
 func getCert(r *http.Request) ([]byte, error) {
 
 	// Parse the form data with files
