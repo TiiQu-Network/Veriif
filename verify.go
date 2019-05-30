@@ -56,26 +56,20 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	output["check_expired"] = true
 
 	// check public key is known, if the key is set
-	if data.PublicKey != nil {
-		err = checkPublicKeyRegistered(data)
-		if err != nil {
-			output["check_pk_registered"] = false
-			return output, err
-		}
-		output["check_pk_registered"] = true
+	err = checkPublicKeyRegistered(data)
+	if err != nil {
+		output["check_pk_registered"] = false
+		return output, err
 	}
-	// TODO output a warning that public key registered was not checked
+	output["check_pk_registered"] = true
 
 	// Check the signature verifies, if the key is set
-	if data.PublicKey != nil {
-		err = checkSigVerifies(certHash, data)
-		if err != nil {
-			output["check_sig"] = false
-			return output, err
-		}
-		output["check_sig"] = true
+	err = checkSigVerifies(certHash, data)
+	if err != nil {
+		output["check_sig"] = false
+		return output, err
 	}
-	// TODO output a warning that signature verification was not checked
+	output["check_sig"] = true
 
 	// Check the Merkle proof verifies
 	mr, err := checkMerkleProof(certHash, data)
@@ -238,7 +232,7 @@ func checkHasExpired(expireDate string) error {
 func checkSigVerifies(certHash []byte, data models.CertPacket) error {
 	errorHeader := "Signature"
 
-	pk, err := parsePublicKey([]byte(*data.PublicKey))
+	pk, err := parsePublicKey([]byte(data.PublicKey))
 	if err != nil {
 		return err
 	}
@@ -298,7 +292,7 @@ func checkMerkelRoot(merkleRoot []byte) error {
 	return nil
 }
 
-// parsePublicKey parses a PEM encoded private key.
+// parsePublicKey parses a PEM encoded public key.
 func parsePublicKey(pemBytes []byte) (*rsa.PublicKey, error) {
 	block, _ := pem.Decode(pemBytes)
 	if block == nil {
@@ -320,7 +314,7 @@ func parsePublicKey(pemBytes []byte) (*rsa.PublicKey, error) {
 func checkPublicKeyRegistered(data models.CertPacket) error {
 	errorHeader := "Public key"
 
-	pkb := []byte(*data.PublicKey)
+	pkb := []byte(data.PublicKey)
 	pb, _ := pem.Decode(pkb)
 	if pb == nil {
 		return errors.New(errorHeader + ": no key found")
