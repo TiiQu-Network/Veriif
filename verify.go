@@ -3,15 +3,18 @@ package main
 import (
 	"bytes"
 	"crypto"
+	"crypto/ecdsa"
 	"crypto/rsa"
 	"crypto/sha256"
 	"crypto/x509"
+	"encoding/asn1"
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
 	"github.com/Samyoul/Veriif/models"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
+	"math/big"
 	"regexp"
 	"time"
 )
@@ -106,7 +109,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	return output, nil
 }
 
-func extractCert(content []byte) (models.CertPacket,error){
+func extractCert(content []byte) (models.CertPacket, error) {
 	certPacket := models.CertPacket{}
 
 	// Get the cert data from a file
@@ -232,21 +235,50 @@ func checkHasExpired(expireDate string) error {
 func checkSigVerifies(certHash []byte, data models.CertPacket) error {
 	errorHeader := "Signature"
 
-	pk, err := parsePublicKey([]byte(data.PublicKey))
-	if err != nil {
-		return err
-	}
+	switch data.KeyType {
+	case "rsa":
+		pk, err := parsePublicKey([]byte(data.PublicKey))
+		if err != nil {
+			return err
+		}
 
-	sig, err := data.Signature.Decode()
-	if err != nil {
-		return errors.Wrap(err, errorHeader)
-	}
+		sig, err := data.Signature.Decode()
+		if err != nil {
+			return errors.Wrap(err, errorHeader)
+		}
 
-	err = rsa.VerifyPKCS1v15(pk, crypto.SHA256, certHash, sig)
-	if err != nil {
-		return errors.Wrap(err, errorHeader+ ": does not verify")
-	} else {
-		printSuccess(errorHeader + ": verification")
+		err = rsa.VerifyPKCS1v15(pk, crypto.SHA256, certHash, sig)
+		if err != nil {
+			return errors.Wrap(err, errorHeader+": does not verify")
+		} else {
+			printSuccess(errorHeader + ": verification")
+		}
+
+		break
+	case "ecdsa":
+		// Parse and decode the signature
+		sig, err := data.Signature.Decode()
+		if err != nil {
+			return errors.Wrap(err, errorHeader)
+		}
+
+		var eSig struct {
+			R, S *big.Int
+		}
+		asn1.Unmarshal(sig, &eSig)
+
+		// Parse and decode the public key
+		block, _ := pem.Decode([]byte(data.PublicKey))
+		pubKey, err := x509.ParsePKIXPublicKey(block.Bytes)
+		if err != nil {
+			return errors.Wrap(err, errorHeader)
+		}
+
+		if !ecdsa.Verify(pubKey.(*ecdsa.PublicKey), certHash, eSig.R, eSig.S) {
+			return errors.New(errorHeader + ": does not verify")
+		}
+	default:
+		return errors.New(errorHeader + ": unknown key type - " + data.KeyType)
 	}
 
 	return nil
