@@ -30,8 +30,8 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - VIRTUAL_HOST=verify.localhost, verify.tiiqu.com, 35.178.44.14
-      - LETSENCRYPT_HOST=verify.tiiqu.com
+      - VIRTUAL_HOST=verify.localhost, verify.tiiqu.com, verify.veriif.com, 35.178.44.14
+      - LETSENCRYPT_HOST=verify.tiiqu.com, verify.veriif.com
       - LETSENCRYPT_EMAIL=samuel.hr@tiiqu.com
 
 volumes:
