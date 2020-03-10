@@ -1,4 +1,4 @@
-package main
+package verify
 
 import (
 	"bytes"
@@ -18,7 +18,9 @@ import (
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 
+	"github.com/TiiQu-Network/Veriif/messages"
 	"github.com/TiiQu-Network/Veriif/models"
+	"github.com/TiiQu-Network/Veriif/ethereum"
 )
 
 var (
@@ -29,7 +31,7 @@ var (
 	}
 )
 
-func verify(data models.CertPacket) (map[string]bool, error) {
+func Verify(data models.CertPacket, e ethereum.Caller) (map[string]bool, error) {
 	output := map[string]bool{}
 
 	// Check that mandatory fields are present
@@ -61,7 +63,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	output["check_expired"] = true
 
 	// check public key is known, if the key is set
-	err = checkPublicKeyRegistered(data)
+	err = checkPublicKeyRegistered(data, e)
 	if err != nil {
 		output["check_pk_registered"] = false
 		return output, err
@@ -85,7 +87,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	output["check_merkle_proof"] = true
 
 	// Check merkle root is on blockchain
-	err = checkMerkelRoot(mr)
+	err = checkMerkelRoot(mr, e)
 	if err != nil {
 		output["check_merkle_root"] = false
 		return output, err
@@ -93,7 +95,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	output["check_merkle_root"] = true
 
 	// check hash has been suspended
-	err = checkHashSuspended(certHash)
+	err = checkHashSuspended(certHash, e)
 	if err != nil {
 		output["check_suspended"] = false
 		return output, err
@@ -101,7 +103,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	output["check_suspended"] = true
 
 	// Check hash or merkle root has been revoked
-	err = checkHashRevoked(certHash, mr)
+	err = checkHashRevoked(certHash, mr, e)
 	if err != nil {
 		output["check_revocation"] = false
 		return output, err
@@ -111,7 +113,7 @@ func verify(data models.CertPacket) (map[string]bool, error) {
 	return output, nil
 }
 
-func extractCert(content []byte) (models.CertPacket, error) {
+func ExtractCert(content []byte) (models.CertPacket, error) {
 	certPacket := models.CertPacket{}
 
 	// Get the cert data from a file
@@ -197,7 +199,7 @@ func checkHashMatch(calcHash []byte, data models.CertPacket) ([]byte, error) {
 	}
 
 	if bytes.Equal(calcHash[:], certHash) {
-		printSuccess("Hash match")
+		messages.PrintSuccess("Hash match")
 	} else {
 		return nil, errors.New(errorHeader + ": does not match")
 	}
@@ -253,7 +255,7 @@ func checkSigVerifies(certHash []byte, data models.CertPacket) error {
 		if err != nil {
 			return errors.Wrap(err, errorHeader+": does not verify")
 		} else {
-			printSuccess(errorHeader + ": verification")
+			messages.PrintSuccess(errorHeader + ": verification")
 		}
 
 		break
@@ -301,7 +303,7 @@ func checkMerkleProof(certHash []byte, data models.CertPacket) ([]byte, error) {
 
 	mt := gomerkle.NewTree(sha256.New())
 	if mt.VerifyProof(mp, mr, certHash) {
-		printSuccess(errorHeader + ": verification")
+		messages.PrintSuccess(errorHeader + ": verification")
 	} else {
 		return nil, errors.New(errorHeader + ": does not verify")
 	}
@@ -309,16 +311,16 @@ func checkMerkleProof(certHash []byte, data models.CertPacket) ([]byte, error) {
 	return mr, nil
 }
 
-func checkMerkelRoot(merkleRoot []byte) error {
+func checkMerkelRoot(merkleRoot []byte, e ethereum.Caller) error {
 	errorHeader := "Merkle proof"
 
-	exists, err := rootExistsOnChain(merkleRoot)
+	exists, err := rootExistsOnChain(merkleRoot, e)
 	if err != nil {
 		return err
 	}
 
 	if exists {
-		printSuccess(errorHeader + ": on chain")
+		messages.PrintSuccess(errorHeader + ": on chain")
 	} else {
 		return errors.New(errorHeader + ": not on chain")
 	}
@@ -345,7 +347,7 @@ func parsePublicKey(pemBytes []byte) (*rsa.PublicKey, error) {
 	}
 }
 
-func checkPublicKeyRegistered(data models.CertPacket) error {
+func checkPublicKeyRegistered(data models.CertPacket, e ethereum.Caller) error {
 	errorHeader := "Public key"
 
 	pkb := []byte(data.PublicKey)
@@ -355,7 +357,7 @@ func checkPublicKeyRegistered(data models.CertPacket) error {
 	}
 
 	hash := sha256.Sum256(pb.Bytes)
-	registered, err := certRegContract.PublicKeyIsRegistered(callOpts, hash)
+	registered, err := e.CertRegContract.PublicKeyIsRegistered(e.CallOpts, hash)
 	if err != nil {
 		return err
 	}
@@ -385,19 +387,19 @@ func proofFromModel(md models.MerkleProof) (gomerkle.Proof, error) {
 	return pf, nil
 }
 
-func rootExistsOnChain(root []byte) (bool, error) {
+func rootExistsOnChain(root []byte, e ethereum.Caller) (bool, error) {
 	var mr32 [32]byte
 	copy(mr32[:], root)
 
-	return certRegContract.RootExists(callOpts, mr32)
+	return e.CertRegContract.RootExists(e.CallOpts, mr32)
 }
 
-func checkHashSuspended(certHash []byte) error {
+func checkHashSuspended(certHash []byte, e ethereum.Caller) error {
 	errorHeader := "Suspended"
 
 	var ch32 [32]byte
 	copy(ch32[:], certHash)
-	chr, err := certRegContract.IsSuspended(callOpts, ch32)
+	chr, err := e.CertRegContract.IsSuspended(e.CallOpts, ch32)
 	if err != nil {
 		return errors.Wrap(err, errorHeader)
 	}
@@ -408,12 +410,12 @@ func checkHashSuspended(certHash []byte) error {
 	return nil
 }
 
-func checkHashRevoked(certHash []byte, root []byte) error {
+func checkHashRevoked(certHash []byte, root []byte, e ethereum.Caller) error {
 	errorHeader := "Revoked"
 
 	var ch32 [32]byte
 	copy(ch32[:], certHash)
-	chr, err := certRegContract.IsRevoked(callOpts, ch32)
+	chr, err := e.CertRegContract.IsRevoked(e.CallOpts, ch32)
 	if err != nil {
 		return errors.Wrap(err, errorHeader)
 	}
@@ -423,7 +425,7 @@ func checkHashRevoked(certHash []byte, root []byte) error {
 
 	var r32 [32]byte
 	copy(r32[:], root)
-	rr, err := certRegContract.IsRevoked(callOpts, r32)
+	rr, err := e.CertRegContract.IsRevoked(e.CallOpts, r32)
 	if err != nil {
 		return errors.Wrap(err, errorHeader)
 	}
@@ -431,7 +433,7 @@ func checkHashRevoked(certHash []byte, root []byte) error {
 		return errors.New(errorHeader + ": certificate batch has been revoked")
 	}
 
-	printSuccess("Certificate not revoked")
+	messages.PrintSuccess("Certificate not revoked")
 
 	return nil
 }

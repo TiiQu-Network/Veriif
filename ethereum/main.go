@@ -1,4 +1,4 @@
-package main
+package ethereum
 
 import (
 	"context"
@@ -16,27 +16,29 @@ const (
 	node            = "https://kovan.infura.io/v3/87abed49b20c49bd99f9bc2645023f34"
 )
 
-var (
-	certRegContract *contracts.CertRegistryCaller
-	callOpts        *bind.CallOpts
-)
+type Caller struct {
+	CertRegContract *contracts.CertRegistryCaller
+	CallOpts        *bind.CallOpts
+}
 
-func initContract() error {
+func Init() (Caller, error) {
+	c := Caller{}
+
 	ca := common.HexToAddress(contractAddress)
 	client, err := ethclient.Dial(node)
 	if err != nil {
-		return errors.Wrap(err, "Failed to connect to the Ethereum client: %v")
+		return c, errors.Wrap(err, "Failed to connect to the Ethereum client: %v")
 	}
 
-	certRegContract, err = contracts.NewCertRegistryCaller(ca, client)
+	c.CertRegContract, err = contracts.NewCertRegistryCaller(ca, client)
 	if err != nil {
-		return err
+		return c, err
 	}
 
-	callOpts = &bind.CallOpts{
+	c.CallOpts = &bind.CallOpts{
 		Pending: false,
 		Context: context.TODO(),
 	}
 
-	return nil
+	return c, nil
 }

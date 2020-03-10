@@ -1,8 +1,10 @@
 package main
 
+import "github.com/TiiQu-Network/Veriif/app"
+
 func main() {
-	app := NewApp()
-	app.Init()
-	app.Run()
+	a := app.NewApp()
+	a.Init()
+	a.Run()
 }
 

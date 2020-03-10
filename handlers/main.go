@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"bytes"
@@ -7,24 +7,35 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/TiiQu-Network/Veriif/interfaces"
 	"github.com/TiiQu-Network/Veriif/models"
+	"github.com/TiiQu-Network/Veriif/templates"
+	"github.com/TiiQu-Network/Veriif/verify"
 )
 
-func (a App) Welcome(w http.ResponseWriter, r *http.Request) {
+type Handler struct{
+	app interfaces.Application
+}
+
+func New(a interfaces.Application) Handler {
+	return Handler{a}
+}
+
+func (h Handler) Welcome(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		t, err := template.ParseFiles(GetTemplates("base", "upload"))
-		a.Log(err, "Parsing template files")
-		a.Log(t.ExecuteTemplate(w, "base", nil), "Execute Welcome template")
+		t, err := template.ParseFiles(templates.GetTemplates("base", "upload"))
+		h.app.ErrLogger().Log(err, "Parsing template files")
+		h.app.ErrLogger().Log(t.ExecuteTemplate(w, "base", nil), "Execute Welcome template")
 		break
 
 	case http.MethodPost:
 		cert, err := getCert(r)
-		a.Log(err, "Getting cert data")
+		h.app.ErrLogger().Log(err, "Getting cert data")
 
-		certPacket, err := extractCert(cert)
+		certPacket, err := verify.ExtractCert(cert)
 
-		results, err := verify(certPacket)
+		results, err := verify.Verify(certPacket, h.app.EthCaller())
 
 		data := map[string]interface{}{}
 		data["results"] = results
@@ -32,16 +43,16 @@ func (a App) Welcome(w http.ResponseWriter, r *http.Request) {
 		data["fail"] = err
 
 		println("")
-		t, err := template.ParseFiles(GetTemplates("base", "result"))
+		t, err := template.ParseFiles(templates.GetTemplates("base", "result"))
 
-		a.Log(err, "Parsing template files")
-		a.Log(t.ExecuteTemplate(w, "base", data), "Execute Welcome template")
+		h.app.ErrLogger().Log(err, "Parsing template files")
+		h.app.ErrLogger().Log(t.ExecuteTemplate(w, "base", data), "Execute Welcome template")
 		break
 	}
 
 }
 
-func (a App) API(w http.ResponseWriter, r *http.Request) {
+func (h Handler) API(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodPost:
@@ -59,7 +70,7 @@ func (a App) API(w http.ResponseWriter, r *http.Request) {
 
 		// TODO add Validation of the incoming data
 
-		results, err := verify(certPacket)
+		results, err := verify.Verify(certPacket, h.app.EthCaller())
 
 		data := map[string]interface{}{}
 		data["results"] = results
@@ -79,7 +90,7 @@ func (a App) API(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (a App) APILite(w http.ResponseWriter, r *http.Request) {
+func (h Handler) APILite(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 
 	case http.MethodPost:
@@ -106,7 +117,7 @@ func (a App) APILite(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		results, err := verify(*certPacket)
+		results, err := verify.Verify(*certPacket, h.app.EthCaller())
 
 		data := map[string]interface{}{}
 		data["results"] = results

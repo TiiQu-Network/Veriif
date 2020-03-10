@@ -2,27 +2,33 @@
 // Package errz provides highlevel error handling helpers
 //
 //
-package main
+package errors
 
 import (
 	"log"
 	"os"
 
 	"github.com/pkg/errors"
+
+	"github.com/TiiQu-Network/Veriif/paths"
 )
 
-func initErrLogger() *log.Logger {
-	f, err := os.OpenFile(errorLog, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+type Logger struct {
+	*log.Logger
+}
+
+func InitLogger() Logger {
+	f, err := os.OpenFile(paths.ErrorLog, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		panic(err)
 	}
 
-	return log.New(f, "Error : ", log.LstdFlags)
+	return Logger{log.New(f, "Error : ", log.LstdFlags)}
 }
 
 //Fatal panics on error
 //First parameter of msgs is used each following variadic arg is dropped
-func (a App) Fatal(err error, msgs ...string) {
+func (el Logger) Fatal(err error, msgs ...string) {
 	if err != nil {
 		var str string
 		for _, msg := range msgs {
@@ -40,7 +46,7 @@ func (a App) Fatal(err error, msgs ...string) {
 //defer Recover()
 //or
 //defer Recover(&err)
-func (a App) Recover(logger *log.Logger, errs ...*error) {
+func (el Logger) Recover(logger *log.Logger, errs ...*error) {
 	var e *error
 	for _, err := range errs {
 		e = err
@@ -64,25 +70,25 @@ func (a App) Recover(logger *log.Logger, errs ...*error) {
 		if e != nil {
 			*e = errmsg
 		} else {
-			a.ErrLogger.Printf("%+v", errmsg)
+			el.Printf("%+v", errmsg)
 		}
 	}
 }
 
 //Log logs an error + stack trace directly to console or file
 //Use this at the top level to publish errors without creating a new error object
-func (a App) Log(err error, msgs ...string) {
+func (el Logger) Log(err error, msgs ...string) {
 	if err != nil {
 		var str string
 		for _, msg := range msgs {
 			str = msg
 			break
 		}
-		a.ErrLogger.Printf("%+v", errors.Wrap(err, str))
+		el.Printf("%+v", errors.Wrap(err, str))
 	}
 }
 
-func (a App) LogFatal(err error, msgs ...string) {
-	a.Log(err, msgs...)
-	a.Fatal(err, msgs...)
+func (el Logger) LogFatal(err error, msgs ...string) {
+	el.Log(err, msgs...)
+	el.Fatal(err, msgs...)
 }

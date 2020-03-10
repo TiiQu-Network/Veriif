@@ -1,4 +1,4 @@
-package main
+package messages
 
 import (
 	"bufio"
@@ -8,7 +8,7 @@ import (
 	"github.com/fatih/color"
 )
 
-func printTitle() {
+func PrintTitle() {
 	color.Set(color.FgGreen, color.Bold)
 	println(`____   ____           .__.__  _____  `)
 	println(`\   \ /   /___________|__|__|/ ____\ `)
@@ -23,29 +23,29 @@ func printTitle() {
 	println("")
 }
 
-func printError(err error) {
+func PrintError(err error) {
 	color.Set(color.FgRed)
 	println("- ERROR   - " + err.Error())
 	color.Unset()
 }
 
-func printSuccess(message string) {
+func PrintSuccess(message string) {
 	color.Set(color.FgGreen)
 	println("- SUCCESS - " + message)
 	color.Unset()
 }
 
-func printProcessing(message string) {
+func PrintProcessing(message string) {
 	color.Set(color.FgHiYellow)
 	println("- Processing : " + message)
 	color.Unset()
 }
 
-func printPrompt() {
+func PrintPrompt() {
 	print("Enter certificate filename: ")
 }
 
-func getInput() string{
+func GetInput() string{
 	color.Set(color.FgHiYellow)
 	reader := bufio.NewReader(os.Stdin)
 	input, _ := reader.ReadString('\n')
@@ -56,7 +56,7 @@ func getInput() string{
 	return strings.TrimSpace(input)
 }
 
-func printVerifyFail(err error) {
+func PrintVerifyFail(err error) {
 	color.Set(color.FgRed)
 	println("- FAIL    - " + err.Error())
 	color.Unset()
@@ -69,7 +69,7 @@ func printVerifyFail(err error) {
 	color.Unset()
 }
 
-func printVerifySuccess() {
+func PrintVerifySuccess() {
 	color.Set(color.FgGreen, color.Bold)
 	println("|--------------------------------------------------------------|")
 	println("| {+}     VERIFIED - The certificate has been verified     {+} |")
