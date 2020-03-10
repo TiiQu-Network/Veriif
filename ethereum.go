@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/Samyoul/Veriif/contracts"
+	"github.com/TiiQu-Network/Veriif/contracts"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"

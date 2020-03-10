@@ -11,7 +11,7 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
-	"github.com/Samyoul/Veriif/models"
+	"github.com/TiiQu-Network/Veriif/models"
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 	"math/big"

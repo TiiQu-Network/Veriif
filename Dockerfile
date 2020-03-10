@@ -3,8 +3,8 @@ FROM golang:1.10
 EXPOSE 80
 
 # File - Create project directory
-RUN mkdir -p /go/src/github.com/Samyoul/Veriif
-WORKDIR /go/src/github.com/Samyoul/Veriif
+RUN mkdir -p /go/src/github.com/TiiQu-Network/Veriif
+WORKDIR /go/src/github.com/TiiQu-Network/Veriif
 
 # App - Copy application source code and configurations into container
 COPY . ./

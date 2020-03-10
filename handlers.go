@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/Samyoul/Veriif/models"
+	"github.com/TiiQu-Network/Veriif/models"
 	"html/template"
 	"io"
 	"net/http"
