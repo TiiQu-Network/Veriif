@@ -1,6 +1,6 @@
 package templates
 
-import "github.com/TiiQu-Network/Veriif/paths"
+import "github.com/TiiQu-Network/Veriif/app/paths"
 
 func GetTemplates(layout string, name string) (string, string) {
 	return paths.LayoutDir + layout + ".html", paths.TemplateDir + name + ".html"

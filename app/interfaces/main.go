@@ -1,8 +1,8 @@
 package interfaces
 
 import (
-	"github.com/TiiQu-Network/Veriif/errors"
-	"github.com/TiiQu-Network/Veriif/ethereum"
+	"github.com/TiiQu-Network/Veriif/app/errors"
+	"github.com/TiiQu-Network/Veriif/app/ethereum"
 )
 
 type Application interface {

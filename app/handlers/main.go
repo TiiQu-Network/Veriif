@@ -7,10 +7,10 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/TiiQu-Network/Veriif/interfaces"
-	"github.com/TiiQu-Network/Veriif/models"
-	"github.com/TiiQu-Network/Veriif/templates"
-	"github.com/TiiQu-Network/Veriif/verify"
+	"github.com/TiiQu-Network/Veriif/app/interfaces"
+	"github.com/TiiQu-Network/Veriif/app/models"
+	"github.com/TiiQu-Network/Veriif/app/templates"
+	"github.com/TiiQu-Network/Veriif/app/verify"
 )
 
 type Handler struct{

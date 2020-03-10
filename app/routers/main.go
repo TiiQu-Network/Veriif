@@ -3,9 +3,9 @@ package routers
 import (
 	"net/http"
 
-	"github.com/TiiQu-Network/Veriif/handlers"
-	"github.com/TiiQu-Network/Veriif/interfaces"
-	"github.com/TiiQu-Network/Veriif/paths"
+	"github.com/TiiQu-Network/Veriif/app/handlers"
+	"github.com/TiiQu-Network/Veriif/app/interfaces"
+	"github.com/TiiQu-Network/Veriif/app/paths"
 )
 
 func InitHttp(a interfaces.Application) {

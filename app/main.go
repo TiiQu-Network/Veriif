@@ -7,11 +7,11 @@ import (
 
 	"github.com/pkg/browser"
 
-	"github.com/TiiQu-Network/Veriif/errors"
-	"github.com/TiiQu-Network/Veriif/ethereum"
-	"github.com/TiiQu-Network/Veriif/messages"
-	"github.com/TiiQu-Network/Veriif/routers"
-	"github.com/TiiQu-Network/Veriif/verify"
+	"github.com/TiiQu-Network/Veriif/app/errors"
+	"github.com/TiiQu-Network/Veriif/app/ethereum"
+	"github.com/TiiQu-Network/Veriif/app/messages"
+	"github.com/TiiQu-Network/Veriif/app/routers"
+	"github.com/TiiQu-Network/Veriif/app/verify"
 )
 
 type App struct {

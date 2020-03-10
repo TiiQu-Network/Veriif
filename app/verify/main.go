@@ -18,9 +18,9 @@ import (
 	"github.com/onrik/gomerkle"
 	"github.com/pkg/errors"
 
-	"github.com/TiiQu-Network/Veriif/messages"
-	"github.com/TiiQu-Network/Veriif/models"
-	"github.com/TiiQu-Network/Veriif/ethereum"
+	"github.com/TiiQu-Network/Veriif/app/ethereum"
+	"github.com/TiiQu-Network/Veriif/app/messages"
+	"github.com/TiiQu-Network/Veriif/app/models"
 )
 
 var (

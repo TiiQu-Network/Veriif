@@ -10,7 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/TiiQu-Network/Veriif/paths"
+	"github.com/TiiQu-Network/Veriif/app/paths"
 )
 
 type Logger struct {

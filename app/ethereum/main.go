@@ -8,7 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/pkg/errors"
 
-	"github.com/TiiQu-Network/Veriif/contracts"
+	"github.com/TiiQu-Network/Veriif/app/ethereum/contracts"
 )
 
 const (
