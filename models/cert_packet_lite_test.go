@@ -2,8 +2,9 @@ package models
 
 import (
 	"encoding/json"
-	"github.com/davecgh/go-spew/spew"
 	"testing"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 var(

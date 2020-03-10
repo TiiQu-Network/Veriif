@@ -2,9 +2,10 @@ package main
 
 import (
 	"bufio"
-	"github.com/fatih/color"
 	"os"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 func printTitle() {

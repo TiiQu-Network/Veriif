@@ -11,12 +11,14 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
-	"github.com/TiiQu-Network/Veriif/models"
-	"github.com/onrik/gomerkle"
-	"github.com/pkg/errors"
 	"math/big"
 	"regexp"
 	"time"
+
+	"github.com/onrik/gomerkle"
+	"github.com/pkg/errors"
+
+	"github.com/TiiQu-Network/Veriif/models"
 )
 
 var (

@@ -2,11 +2,13 @@ package main
 
 import (
 	"context"
-	"github.com/TiiQu-Network/Veriif/contracts"
+
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/pkg/errors"
+
+	"github.com/TiiQu-Network/Veriif/contracts"
 )
 
 const (

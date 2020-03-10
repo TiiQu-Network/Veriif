@@ -2,10 +2,11 @@ package main
 
 import (
 	"flag"
-	"github.com/pkg/browser"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/pkg/browser"
 )
 
 type App struct {

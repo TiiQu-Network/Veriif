@@ -5,9 +5,10 @@
 package main
 
 import (
-	"github.com/pkg/errors"
 	"log"
 	"os"
+
+	"github.com/pkg/errors"
 )
 
 func initErrLogger() *log.Logger {

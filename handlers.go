@@ -3,10 +3,11 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/TiiQu-Network/Veriif/models"
 	"html/template"
 	"io"
 	"net/http"
+
+	"github.com/TiiQu-Network/Veriif/models"
 )
 
 func (a App) Welcome(w http.ResponseWriter, r *http.Request) {
