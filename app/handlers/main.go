@@ -27,7 +27,6 @@ func (h Handler) Welcome(w http.ResponseWriter, r *http.Request) {
 		t, err := template.ParseFiles(templates.GetTemplates("base", "upload"))
 		h.app.ErrLogger().Log(err, "Parsing template files")
 		h.app.ErrLogger().Log(t.ExecuteTemplate(w, "base", nil), "Execute Welcome template")
-		break
 
 	case http.MethodPost:
 		cert, err := getCert(r)
@@ -42,12 +41,7 @@ func (h Handler) Welcome(w http.ResponseWriter, r *http.Request) {
 		data["cert_data"] = certPacket.Data
 		data["fail"] = err
 
-		println("")
-		t, err := template.ParseFiles(templates.GetTemplates("base", "result"))
-
-		h.app.ErrLogger().Log(err, "Parsing template files")
-		h.app.ErrLogger().Log(t.ExecuteTemplate(w, "base", data), "Execute Welcome template")
-		break
+		h.writeCertResult(w, data)
 	}
 
 }
@@ -137,6 +131,32 @@ func (h Handler) APILite(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func (h Handler) QR(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+
+	case http.MethodGet:
+		cpl := models.CertPacketLite{}
+		err := cpl.UnmarshalSchemaQuery(r.URL.Query())
+		if err != nil {
+			h.app.ErrLogger().Log(err, "unmarshalling form into CertPacketLite")
+		}
+
+		certPacket, err := cpl.ToCertPacket()
+		if err != nil {
+			h.app.ErrLogger().Log(err, "converting CertPacketLite in to CertPacket")
+		}
+
+		results, err := verify.Verify(*certPacket, h.app.EthCaller())
+
+		data := map[string]interface{}{}
+		data["results"] = results
+		data["cert_data"] = certPacket.Data
+		data["fail"] = err
+
+		h.writeCertResult(w, data)
+	}
+}
+
 func getCert(r *http.Request) ([]byte, error) {
 
 	// Parse the form data with files
@@ -164,4 +184,12 @@ func getCert(r *http.Request) ([]byte, error) {
 	}
 
 	return buf.Bytes(), nil
+}
+
+func (h Handler) writeCertResult(w http.ResponseWriter, data map[string]interface{}) {
+	println("")
+	t, err := template.ParseFiles(templates.GetTemplates("base", "result"))
+
+	h.app.ErrLogger().Log(err, "Parsing template files")
+	h.app.ErrLogger().Log(t.ExecuteTemplate(w, "base", data), "Execute Welcome template")
 }

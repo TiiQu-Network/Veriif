@@ -1,10 +1,13 @@
 package models
 
 import (
-	"errors"
-	"strings"
-	"encoding/pem"
 	"encoding/base64"
+	"encoding/pem"
+	"errors"
+	"net/url"
+	"strings"
+
+	"github.com/gorilla/schema"
 )
 
 type CertPacketLite struct {
@@ -17,35 +20,35 @@ type CertPacketLite struct {
 	S string   `json:"s"` // Signing key [S]ignature of certificate hash
 }
 
-func (c CertPacketLite) ToCertPacket() (*CertPacket, error) {
+func (cpl CertPacketLite) ToCertPacket() (*CertPacket, error) {
 	var out CertPacket
 
-	mp, err := c.pToMerkleProof(c.P)
+	mp, err := cpl.pToMerkleProof(cpl.P)
 	if err != nil {
 		return nil, err
 	}
 
-	out.Data = c.D
-	out.Hash = c.stringToEncodingGroup(c.H)
+	out.Data = cpl.D
+	out.Hash = cpl.stringToEncodingGroup(cpl.H)
 	out.MerkleProof = *mp
-	out.MerkleRoot = c.stringToEncodingGroup(c.R)
-	out.KeyType = c.T
+	out.MerkleRoot = cpl.stringToEncodingGroup(cpl.R)
+	out.KeyType = cpl.T
 
-	out.PublicKey, err = c.kToPEMFormat()
+	out.PublicKey, err = cpl.kToPEMFormat()
 	if err != nil {
 		return nil, err
 	}
 
-	out.Signature = c.stringToEncodingGroup(c.S)
+	out.Signature = cpl.stringToEncodingGroup(cpl.S)
 
 	return &out, nil
 }
 
-func (c CertPacketLite) stringToEncodingGroup(encoding string) EncodingGroup {
-	return EncodingGroup{Base64:encoding}
+func (cpl CertPacketLite) stringToEncodingGroup(encoding string) EncodingGroup {
+	return EncodingGroup{Base64: encoding}
 }
 
-func(c CertPacketLite) pToMerkleProof(proofs []string) (*MerkleProof, error) {
+func (cpl CertPacketLite) pToMerkleProof(proofs []string) (*MerkleProof, error) {
 	var out MerkleProof
 
 	for _, p := range proofs {
@@ -70,7 +73,7 @@ func(c CertPacketLite) pToMerkleProof(proofs []string) (*MerkleProof, error) {
 
 		// Create Merkle proof row
 		row := map[string]EncodingGroup{
-			pos: c.stringToEncodingGroup(es[1]),
+			pos: cpl.stringToEncodingGroup(es[1]),
 		}
 
 		out = append(out, row)
@@ -79,9 +82,9 @@ func(c CertPacketLite) pToMerkleProof(proofs []string) (*MerkleProof, error) {
 	return &out, nil
 }
 
-func (c CertPacketLite) kToPEMFormat() (string, error) {
+func (cpl CertPacketLite) kToPEMFormat() (string, error) {
 	// Decode the base64 public key string to bytes
-	dpk, err := base64.StdEncoding.DecodeString(c.K)
+	dpk, err := base64.StdEncoding.DecodeString(cpl.K)
 	if err != nil {
 		return "", err
 	}
@@ -94,4 +97,11 @@ func (c CertPacketLite) kToPEMFormat() (string, error) {
 
 	// Encode the PEM block into a string and return
 	return string(pem.EncodeToMemory(pemkey)), nil
+}
+
+func (cpl *CertPacketLite) UnmarshalSchemaQuery(uv url.Values) error {
+	d := schema.NewDecoder()
+	d.RegisterConverter(CertData{}, SchemeCertDataDecoder)
+
+	return d.Decode(cpl, uv)
 }

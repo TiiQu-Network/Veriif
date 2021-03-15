@@ -18,6 +18,7 @@ func InitHttp(a interfaces.Application) {
 
 	// Application routes
 	http.HandleFunc("/", h.Welcome)
+	http.HandleFunc("/qr", h.QR)
 	http.HandleFunc("/api", h.API)
 	http.HandleFunc("/api/lite", h.APILite)
 }
