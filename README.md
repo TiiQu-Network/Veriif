@@ -28,7 +28,11 @@ https://github.com/TiiQu-Network/Veriif/releases
 
 ## Docker
 
+For launching in a server context use the following commands. Ensure that you've `cd`ed into the `veriif` directory on the server.
+
 ```bash
 docker-compose down
+docker system prune
 docker-compose build
+docker-compose up -d
 ```

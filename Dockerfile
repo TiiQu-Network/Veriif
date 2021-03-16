@@ -10,7 +10,6 @@ WORKDIR /go/src/github.com/TiiQu-Network/Veriif
 COPY . ./
 
 # Build the application and set the container's entrypoint
-RUN go mod vendor
 RUN go get -v
 RUN go build
 RUN mv Veriif /go/bin/

@@ -12,7 +12,7 @@ require (
 	github.com/deckarep/golang-set v1.7.1 // indirect
 	github.com/docker/docker v20.10.5+incompatible // indirect
 	github.com/elastic/gosigar v0.14.1 // indirect
-	github.com/ethereum/go-ethereum v1.9.1
+	github.com/ethereum/go-ethereum v1.8.27
 	github.com/fatih/color v1.10.0
 	github.com/fjl/memsize v0.0.0-20190710130421-bcb5799ab5e5 // indirect
 	github.com/gballet/go-libpcsclite v0.0.0-20191108122812-4678299bea08 // indirect
@@ -24,6 +24,7 @@ require (
 	github.com/huin/goupnp v1.0.0 // indirect
 	github.com/influxdata/influxdb v1.8.4 // indirect
 	github.com/jackpal/go-nat-pmp v1.0.2 // indirect
+	github.com/karalabe/hid v1.0.0 // indirect
 	github.com/karalabe/usb v0.0.0-20191104083709-911d15fe12a9 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
@@ -42,6 +43,8 @@ require (
 	github.com/tyler-smith/go-bip39 v1.1.0 // indirect
 	github.com/wsddn/go-ecdh v0.0.0-20161211032359-48726bab9208 // indirect
 	golang.org/x/crypto v0.0.0-20210314154223-e6e6c4f2bb5b // indirect
+	gopkg.in/fatih/set.v0 v0.2.1 // indirect
+	gopkg.in/karalabe/cookiejar.v2 v2.0.0-20150724131613-8dcd6a7f4951 // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 	gopkg.in/olebedev/go-duktape.v3 v3.0.0-20200619000410-60c24ae608a6 // indirect
 	gopkg.in/urfave/cli.v1 v1.20.0 // indirect
