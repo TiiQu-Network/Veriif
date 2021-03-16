@@ -1,4 +1,4 @@
-FROM golang:1.10
+FROM golang:1.14.4
 
 EXPOSE 80
 
@@ -10,7 +10,8 @@ WORKDIR /go/src/github.com/TiiQu-Network/Veriif
 COPY . ./
 
 # Build the application and set the container's entrypoint
-RUN go get
+RUN go mod vendor
+RUN go get -v
 RUN go build
 RUN mv Veriif /go/bin/
 RUN mv ./files /go/bin/

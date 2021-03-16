@@ -25,3 +25,10 @@ example/cert_1.pdf
 ## Downloads
 
 https://github.com/TiiQu-Network/Veriif/releases
+
+## Docker
+
+```bash
+docker-compose down
+docker-compose build
+```
